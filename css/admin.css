@@ -1,0 +1,353 @@
+@import url(normalize.css);
+
+body {
+    color: #3A4145;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.2rem;
+    height: 100%;
+    line-height: 1.6em;
+    margin: 0;
+    max-height: 100%;
+}
+
+/**
+ ** layouts.
+ **/
+
+/*
+ * sidebar width: 250px;
+ * header height: 50px;
+ * footer height: 50px;
+ */
+.main {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 250px; /* sidebar */
+    top: 0;
+}
+
+.sidebar {
+    background-color: white;
+    bottom: 0;    
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 250px; /* sidebar */
+}
+
+.header {
+    height: 50px; /* header */
+    top: 0;
+    padding-top: 10px;
+}
+
+.footer {
+    bottom: 0;
+    height: 50px; /* footer */
+}
+
+.header, .footer {
+    background-color: #333;
+    color: #ccc;
+    position: absolute;
+    left: 0;
+    right: 0;
+    padding-left: 20px;
+}
+
+.container {
+    background-color: #EDECE4;
+    bottom: 50px; /* footer */
+    left: 0;
+    overflow: auto;
+    position: absolute;
+    right: 0;
+    top: 50px; /* header */
+    padding: 10px 10px 0 10px;
+}
+
+.content {
+    height: 100%;
+}
+
+
+/**
+ ** styles.
+ **/
+
+.header-title a,
+.header-title a:visited,
+.header-title a:hover {
+    color: #ccc;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.post-title-container {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 50px; /* header */
+    top: 0;
+    padding: 10px;
+}
+
+.post-title-container input {
+    border: 1px solid #EEE;
+    display: block;
+    font-weight: bold;
+    line-height: 2em;
+    margin-bottom: 5px;
+    padding: 5px 10px;
+    outline: none !important;
+    width: 100%;
+
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;  
+}
+
+.content-container {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 50px;
+    padding: 15px 10px 0;
+}
+
+.post-content-container {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    padding: 15px 10px 0;
+}
+
+.textarea-container {
+    bottom: 0;
+    margin: 15px 10px 0 10px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 349px;
+    border-right: 1px solid #eee;
+}
+
+.post-content-container textarea {
+    border: 1px solid #EEE;
+    box-sizing: border-box;
+    font-size: 13px;
+    height: 100%;
+    outline: none !important;
+    padding: 10px 10px 0;
+    resize: none;
+    width: 100%;
+}
+
+.post-help-container {
+    background-color: white;
+    border: 1px solid #EEE;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: absolute;
+    width: 350px;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: 15px 10px 0 5px;
+    font-size: 12px;
+    line-height: 1.4em;
+}
+.post-help {
+    margin: 0 10px;
+}
+.post-help h4 {
+    margin-bottom: 0;
+}
+.post-help ul {
+    padding-left: 15px;
+}
+
+menu {
+    margin: 0;
+    padding: 0;
+}
+menuitem {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    margin-right: 5px;
+}
+.post-list a {
+    cursor: pointer;
+    color: #ccc;
+    text-decoration: none;
+}
+.post-list menuitem:hover a,
+.post-list menuitem:hover .menu-title {
+    text-decoration: underline;
+}
+
+.footer menu {
+    position: absolute;
+    margin-right: 5px;
+    padding-top: 7px;
+    right: 0;
+}
+
+.button {
+    border-radius: 2px;
+    border: none;
+    color: rgba(255,255,255,0.8);
+    cursor: pointer;
+    display: block;
+    font-size: 11px;
+    font-weight: bold;
+    height: 30px;
+    margin: 0;
+    outline: none !important;
+    padding: 0px 6px;
+    text-align: center;
+    text-transform: uppercase;
+    width: auto;
+
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.button:hover {
+    opacity: 0.8;
+}
+button:disabled {
+    opacity: 0.3 !important;
+}
+.button.primary {
+    background-color: #5ba4e5;
+}
+.button.secondary {
+    background-color: #9fbb58;
+}
+.button.dangerous {
+    background-color: #c91d12;
+}
+.button.checked {
+    opacity: 0.6;
+}
+
+.tags input {
+    font-size: 15px;
+    border: none;
+    background-color: transparent;
+    margin-top: 10px;
+    line-height: 2em;
+    color: #ccc;
+    font-weight: bold;
+    outline: none !important;
+    width: 60%;
+    float: left;
+}
+.tags input.error {
+    color: #c91d12;
+}
+
+
+input::-webkit-input-placeholder {
+    font-weight: normal;
+    color: #666;
+}
+
+.post-list {
+    height: 100%;
+    overflow: auto;
+}
+
+.post-list menuitem {
+    border-bottom: 1px solid #ddd;
+    display: block;
+    padding: 10px 0 0 10px;
+}
+.post-list menuitem:hover {
+    background-color: #EDECE4;
+}
+.post-list menuitem.draft {
+    opacity: 0.4;
+}
+.post-list menuitem.checked {
+    background-color: #EDECE4;
+}
+
+.new-post {
+    background-color: #5ba4e5;
+    color: rgba(255,255,255,0.8);
+    cursor: pointer;
+}
+.new-post .menu-date {
+    color: rgba(255,255,255,0.8);
+}
+
+.menu-title {
+    font-size: 17px;
+    font-weight: bold;
+    line-height: 1.3em;
+    cursor: pointer;
+}
+.menu-date {
+    font-size: 12px;
+    color: #ccc;
+}
+
+.post-preview-container {
+    background-color: white;
+    border: 1px solid #EEE;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: absolute;
+    width: 350px;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: 15px 10px 0 5px;
+}
+
+.post-preview-banner {
+    font-weight: bold;
+    position: absolute;
+    opacity: 0.3;
+    font-size: 150px;
+    top: 300px;
+    right: -220px;
+    -webkit-transform: rotate(90deg);
+}
+
+#post-preview {
+    padding: 0 20px;
+    background-color: white;
+    zoom: 46%;
+}
+
+
+/**
+ ** previews.
+ **/
+
+.post-content {
+    max-width: 700px;
+    width: 100%;
+    margin: 0 auto;
+    line-height: 1.6em;
+}
+
+.post-content img {
+    height: auto;
+    width: 100%;
+}
+
+blockquote {
+    border-left: #edece4 0.6em solid;
+    box-sizing: border-box;
+    padding: 0 1.6em;
+    margin: 1.6em 0;
+}

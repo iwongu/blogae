@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block scripts %}{{config.blog_script|safe}}{% endblock %}
+
+{% block articles %}
+{% for post in posts %}
+  {% block article scoped %}
+    {{ super() }}
+  {% endblock %}
+{% endfor %}
+{% endblock %}
+
+{% block post_content %}
+<section class="post-content">
+  {% if post.main_photo_converted %}
+  <img class="post-thumbnail" src="{{post.main_photo_converted}}">
+  {% endif %}
+  {{post.content_converted}}
+  <div style="clear: both;"></div>
+</section>
+{% endblock %}
+
+{% block blog_header %}
+{% include "header-full.html" with context %}
+{% endblock %}
+
+{% block post_title %}
+<h1 class="post-title"><a href="{{post.permalink_converted}}">{{post.title}}</a></h1>
+{% endblock %}
+
+{% block nav %}
+<nav class="nav">
+  {% if has_prev %}
+  <div class="nav_prev">
+    <a href="{{page_link_prefix}}{%if page_num == 2 %}/{% else %}/page/{{page_num - 1}}{%endif %}">&larr;Newer posts</a>
+  </div>
+  {% endif %}
+  {% if has_next %}
+  <div class="nav_next">
+    <a href="{{page_link_prefix}}/page/{{page_num + 1}}">Older posts&rarr;</a>
+  </div>
+  {% endif %}
+  <div class="nav_current">
+    {{page_num}} / {{total_page_num}}
+  </div>
+</nav>
+{% endblock %}
+

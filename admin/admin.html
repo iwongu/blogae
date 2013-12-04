@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html ng-app="myApp">
+  <head>
+    <script type="text/javascript" src="/js/jquery-2.0.3.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular-resource.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular-route.min.js"></script>
+    <script src="/js/admin.js"></script>
+    <script src="/js/markdown.min.js"></script>
+    <script src="/admin/js"></script>
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700">
+    <link rel="stylesheet" type="text/css" href="/css/admin.css">
+  </head>
+  <body ng-controller="AdminCtrl">
+    <aside class="sidebar">
+      <div class="post-list" when-scrolled="load_more()">
+	<menu>
+	  <menuitem class="new-post" ng-click="new_post()">
+	    <div class="menu-title">Write new post</div>
+	    <div class="menu-date">Right now</div>
+	  </menuitem>
+	  {% raw %}
+	  <menuitem ng-repeat="post in posts"
+	            ng-class="{draft: post.is_draft, checked: post.id == selected_post.id}">
+            <div ng-click="edit(post.id)" class="menu-title">
+              {{post.title.length == 0 ? '(No title)' : (post.is_draft ? post.title + ' (draft)' : post.title)}}
+            </div>
+            <div class="menu-date">
+              {{post.date_published}}
+	      <span ng-show="!post.is_draft"> - <a href="{{post.permalink_full}}" target="view">View</a>
+            </div>
+          </menuitem>
+          {% endraw %}
+        </menu>
+      </div>
+    </aside>
+    <main class="main">
+      <header class="header">
+        <div class="header-title"><a href="/" target="_blank">{{config.blog_title}}</a> - {{user.nickname()}}</div>
+      </header>
+      <div class="container">
+        <section class="content">
+          <div class="post-title-container">
+            <input type="text" ng-model="title" ng-change="edited=true" placeholder="Title"></input>
+          </div>
+          <div class="content-container">
+            <div class="post-content-container">
+              <div class="textarea-container">
+                <textarea ng-model="content" ng-change="edited=true; content_changed()" placeholder="Type your story..."></textarea>
+              </div>
+              <div class="post-help-container" ng-show="help_showing">
+		<div class="post-help">
+                  {% include "markdown-help.html" %}
+		</div>
+	      </div>
+              <div class="post-preview-container" ng-show="!help_showing">
+		<div class="post-preview-banner">Preview</div>
+		<section id="post-preview" class="post-content">
+		</section>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+      <footer class="footer">
+        <span class="tags">
+          <input type="text" ng-show="metadata_editing == 'tags'" ng-model="tags" ng-change="edited=true" placeholder="Comma separated tags"></input>
+          <input type="text" ng-show="metadata_editing == 'published'" ng-model="date_published" ng-change="edited=true" ng-class="{error: !check_date_format()}" placeholder="Published date (auto-filled on saving)"></input>
+          <input type="text" ng-show="metadata_editing == 'permalink'" ng-model="permalink" ng-change="edited=true" placeholder="Permalink (auto-filled on saving)"></input>
+        </span>
+        <menu>
+          {% raw %}
+          <menuitem>
+            <button class="button secondary" ng-click="toggle_metadata_editing()">{{metadata_editing}}</button>
+          </menuitem>
+          <menuitem>
+            <button ng-disabled="((!edited || content.length == 0) && (!selected_post || selected_post.is_draft)) || !check_date_format() || saving"
+                    class="button primary" ng-click="save()">Save as draft</button>
+          </menuitem>
+          <menuitem>
+            <button ng-disabled="((!edited || content.length == 0) && !selected_post.is_draft) || !check_date_format() || saving"
+                    class="button primary" ng-click="publish()">Publish</button>
+          </menuitem>
+          <menuitem ng-repeat="blogae_script in blogae_scripts">
+            <button class="button secondary" ng-click="call_blogae_script($index)">Script #{{$index}}</button>
+          </menuitem>
+          <menuitem>
+            <button class="button secondary" ng-mouseover="help_showing=true" ng-mouseleave="help_showing=false">?</button>
+          </menuitem>
+          <menuitem>
+            <button ng-disabled="!selected_post || saving" class="button dangerous" ng-click="delete_post()">X</button>
+          </menuitem>
+          {% endraw %}
+        </menu>
+      </footer>
+    </main>
+  </body>
+</html>
+{% endautoescape %}

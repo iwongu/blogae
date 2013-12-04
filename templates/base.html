@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700">
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+    <link rel="alternate" type="application/atom+xml" title="{{config.blog_title}} - Atom" href="{{config.blog_url}}/feed/">
+    {% if config.blog_favicon %}<link rel="icon" href="{{config.blog_favicon}}">{% endif %}
+    <script type="text/javascript" src="/js/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="/js/main.js"></script>
+    {% block scripts %}{% endblock %}
+  </head>
+  <body>
+    {% block blog_header %}
+    <header id="post-head">
+      <a id="blog-logo" href="/"><img src="{{config.blog_logo}}" alt="{{config.blog_title}}"></a>
+    </header>
+    {% endblock %}
+
+    <main class="content">
+      {% block content %}
+      {% block articles %}
+      {% block article %}
+      <article class="post">
+	{% block post_header %}
+	<header>
+	  <div class="post-metadata">
+	    {{post.date_published_converted}}
+	    {% for tag in post.tags %}
+	      {% if loop.first %} on {% endif %}
+              <a href="/tag/{{tag}}/">{{tag}}</a>
+	    {% endfor %}
+	  </div>
+	  {% block post_title %}
+	  <h1 class="post-title">{{post.title}}</h1>
+	  {% endblock %}
+	</header>
+	{% endblock %}
+	{% block post_content %}
+	<section class="post-content">{{post.content_converted}}</section>
+	{% endblock %}
+	{% block post_footer %}
+	{% endblock %}
+      </article>
+      {% endblock %}
+      {% block comment_script %}{% endblock %}
+      {% endblock %}
+      {% block nav %}{% endblock %}
+      {% block footer %}{% endblock %}
+      {% endblock %}
+    </main>
+  </body>
+</html>
+{% endautoescape %}

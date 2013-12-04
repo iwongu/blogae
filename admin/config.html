@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html ng-app="myApp">
+  <head>
+    <script type="text/javascript" src="/js/jquery-2.0.3.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular-resource.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular-route.min.js"></script>
+    <script src="/js/config.js"></script>
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700">
+    <link rel="stylesheet" type="text/css" href="/css/config.css">
+  </head>
+  <body ng-controller="ConfigCtrl">
+    <div class="main">
+      <div class="config-name">Blog title</div>
+      <input ng-model="config.blog_title"></input>
+
+      <div class="config-name">Blog url</div>
+      <input ng-model="config.blog_url"></input>
+
+      <div class="config-name">Blog favicon</div>
+      <input ng-model="config.blog_favicon"></input>
+
+      <div class="config-name">Blog cover image</div>
+      <input ng-model="config.blog_cover"></input>
+
+      <div class="config-name">Blog logo</div>
+      <input ng-model="config.blog_logo"></input>
+
+      <div class="config-name">Blog page size</div>
+      <input ng-model="config.blog_page_size"></input>
+
+      <div class="config-name">Blog summary size</div>
+      <input ng-model="config.blog_summary_size"></input>
+
+      <div class="config-name">Authors</div>
+      <input ng-model="config.authors"></input>
+
+      <div class="config-name">Admin scripts</div>
+      <textarea ng-model="config.admin_script" placeholder="$blogae_scripts[0] = function(content) { return content; };"></textarea>
+
+      <div class="config-name">Blog scripts</div>
+      <textarea ng-model="config.blog_script"></textarea>
+
+      <div class="config-name">Post scripts</div>
+      <textarea ng-model="config.post_script"></textarea>
+
+      <div class="config-name">Comment script</div>
+      <textarea ng-model="config.comment_script"></textarea>
+
+      <button class="button" ng-disabled="saving" ng-click="save_config()">Save</button>
+    </div>
+  </body>
+</html>
+{% endautoescape %}

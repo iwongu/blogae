@@ -1,0 +1,61 @@
+application: blogae
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: true
+
+handlers:
+- url: /js
+  static_dir: js
+  secure: optional
+
+- url: /bower_components
+  static_dir: bower_components
+  secure: optional
+
+- url: /css
+  static_dir: css
+  secure: optional
+
+# - url: /import
+#   script: admin.import.application
+#
+# - url: /postimport
+#   script: admin.import.application
+#   login: admin
+#   secure: always
+
+- url: /admin/config
+  script: admin.admin.application
+  login: admin
+  secure: always
+
+- url: /admin(/js)?
+  script: admin.admin.application
+  login: required
+  secure: always
+
+- url: /_/(get_config|save_config)/
+  script: admin.apis.application
+  login: admin
+  secure: always
+
+- url: /_/.*
+  script: admin.apis.application
+  login: required
+  secure: always
+
+- url: /feed/
+  script: main.application
+  secure: optional
+
+- url: /.*
+  script: main.application
+  secure: optional
+
+
+libraries:
+- name: webapp2
+  version: latest
+- name: jinja2
+  version: latest

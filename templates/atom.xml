@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+{% autoescape true %}
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>{{config.blog_title}}</title>
+  <link href="{{config.blog_url}}/feed/" rel="self"/>
+  <link href="{{config.blog_url}}"/>
+  <updated>{{ updated }}</updated>
+  <id>{{config.blog_url}}</id>
+  {% for post in posts %}
+
+  <entry>
+    <title>{{post.title}}</title>
+    <link href="{{config.blog_url}}{{post.permalink_converted}}"/>
+    <id>{{post.permalink_converted}}</id>
+    <updated>{{ post.date_published_converted }}</updated>
+    <content type="html">{{post.content_converted}}</content>
+    <author>
+      <name>{{post.author.nickname()}}</name>
+    </author>
+  </entry>
+  {% endfor %}
+{% endautoescape %}
+</feed>

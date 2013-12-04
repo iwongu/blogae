@@ -1,0 +1,19 @@
+<header id="site-head" style="background-image: url({{config.blog_cover}})">
+  <div class="vertical">
+    <div id="site-head-content" class="inner">
+      <a id="blog-logo" href="/"><img src="{{config.blog_logo}}" alt="{{config.blog_title}}"></a>
+    </div>
+  </div>
+</header>
+<form id="search-form">
+  <input id="search-term" type="search" {% if selected_search %}value="{{selected_search}}"{% endif %}></input>
+  <input type="submit" style="display: none"></input>
+</form>
+<select id="month-select">
+  <option {% if not selected_month %}selected{% endif %} value="/">All</option>
+  {% for name in months.keys()|sort(reverse=True) %}
+  <option {% if name == selected_month %}selected disabled{% endif %} value="/{{name}}/">{{name}} ({{months[name]}})</option>
+  {% endfor %}
+</select>
+
+
