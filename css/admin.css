@@ -299,6 +299,11 @@ input::-webkit-input-placeholder {
     color: #ccc;
 }
 
+
+/**
+ ** previews.
+ **/
+
 .post-preview-container {
     background-color: white;
     border: 1px solid #EEE;
@@ -325,19 +330,16 @@ input::-webkit-input-placeholder {
 #post-preview {
     padding: 0 20px;
     background-color: white;
-    zoom: 46%;
+/*    zoom: 46%;*/
 }
 
 
-/**
- ** previews.
- **/
-
 .post-content {
-    max-width: 700px;
+    max-width: 312px;
     width: 100%;
     margin: 0 auto;
     line-height: 1.6em;
+    font-size: 9px;
 }
 
 .post-content img {

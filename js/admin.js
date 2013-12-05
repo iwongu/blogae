@@ -75,10 +75,11 @@ angular.module('myApp.controllers', []).controller('AdminCtrl', [
 	    var html = markdown.toHTML($scope.content);
 	    if (/iframe.*youtube.com.*\/iframe/.exec(html)) {
 		// post-process to support youtube iframes.
-		html = html.replace(/&lt;iframe/g, '<iframe');
+		html = html.replace(/&lt;iframe /g, '<iframe ');
 		html = html.replace(/&lt;\/iframe/g, '</iframe');
 		html = html.replace(/&gt;/g, '>');
 		html = html.replace(/&quot;/g, '"');
+		html = html.replace(/<iframe width=".*?" height=".*?"/g, '<iframe width="100%" height="auto"');
 	    }
 	    $('#post-preview').html(html);
 	}
