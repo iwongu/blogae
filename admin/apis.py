@@ -1,4 +1,5 @@
 from google.appengine.api import memcache
+from google.appengine.api import urlfetch
 from google.appengine.api import users
 import data
 import datetime
@@ -136,6 +137,45 @@ class SaveConfig(webapp2.RequestHandler):
         mcache.dirty_all()
 
 
+class GetAlbums(webapp2.RequestHandler):
+    def post(self):
+        user = users.get_current_user()
+        access_token = self.request.get('access_token')
+        endpoint = 'https://picasaweb.google.com/data/feed/api/user/' + 'iwongu' + \
+            '?alt=json' + \
+            '&access=all' + \
+            '&start-index=' + self.request.get('start_index') + \
+            '&max-results=' + self.request.get('max_results')
+        headers = {'Authorization': 'Bearer ' + access_token}
+        response = urlfetch.fetch(
+            endpoint,
+            method = urlfetch.GET,
+            headers = headers)
+        self.response.write(json.dumps({
+                    'status_code': response.status_code,
+                    'content': response.content
+                    }))
+
+
+class GetPhotos(webapp2.RequestHandler):
+    def post(self):
+        user = users.get_current_user()
+        access_token = self.request.get('access_token')
+        endpoint = self.request.get('album_id') + \
+            '&access=all&imgmax=1600' + \
+            '&start-index=' + self.request.get('start_index') + \
+            '&max-results=' + self.request.get('max_results')
+        headers = {'Authorization': 'Bearer ' + access_token}
+        response = urlfetch.fetch(
+            endpoint,
+            method = urlfetch.GET,
+            headers = headers)
+        self.response.write(json.dumps({
+                    'status_code': response.status_code,
+                    'content': response.content
+                    }))
+
+
 application = webapp2.WSGIApplication([
         ('/_/get_posts/', GetPosts),
         ('/_/publish/', PublishPost),
@@ -143,4 +183,6 @@ application = webapp2.WSGIApplication([
         ('/_/delete/', DeletePost),
         ('/_/get_config/', GetConfig),
         ('/_/save_config/', SaveConfig),
+        ('/_/get_albums/', GetAlbums),
+        ('/_/get_photos/', GetPhotos),
     ], debug=True)

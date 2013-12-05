@@ -1,0 +1,174 @@
+'use strict';
+
+
+// Declare app level module which depends on filters, and services
+angular.module('myApp', [
+    'ngRoute',
+    'myApp.controllers',
+    'myApp.scroll',
+]);
+
+angular.module('myApp.controllers', []).controller('PickerCtrl', [
+    '$scope', '$http', '$element', '$window',
+    function($scope, $http, $element, $window) {
+	$scope.access_token = '';
+
+	$scope.album_start_index = 1; // 1-based.
+	$scope.album_max_results = 50;
+	$scope.albums = [];
+	$scope.current_album_id = '';
+
+	$scope.photo_start_index = 1; // 1-based.
+	$scope.photo_max_results = 200;
+	$scope.photos = [];
+
+	$scope.selected_photos = [];
+
+	$scope.select_photo = function(photo) {
+	    var index = $scope.find_photo_in_selected(photo.photo_id);
+	    if (index == -1) {
+		$scope.selected_photos.push(photo);
+	    }
+	}
+
+	$scope.deselect_photo = function(photo) {
+	    var index = $scope.find_photo_in_selected(photo.photo_id);
+	    if (index != -1) {
+		$scope.selected_photos.splice(index, 1);
+	    }
+	}
+
+	$scope.find_photo_in_selected = function(photo_id) {
+	    var i = 0;
+	    for (; i < $scope.selected_photos.length; i++) {
+		if ($scope.selected_photos[i].photo_id == photo_id) {
+		    break;
+		}
+	    }
+	    return i == $scope.selected_photos.length ? -1 : i;
+	}
+
+	$scope.load_more_photos = function() {
+	    if ($scope.photos.length + 1 == $scope.photo_start_index) {
+		$scope.fetch_photos();
+	    }
+	}
+
+	$scope.fill_photos = function(data) {
+	    $scope.photo_start_index += $scope.photo_max_results;
+	    for (var i = 0; i < data.feed.entry.length; i++) {
+		var entry = data.feed.entry[i];
+		$scope.photos.push({
+		    'photo_id': entry.id.$t,
+		    'src': entry.content.src,
+		    'thumbnail_small': entry.media$group.media$thumbnail[0].url,
+		    'thumbnail_medium': entry.media$group.media$thumbnail[1].url,
+		    'thumbnail_large': entry.media$group.media$thumbnail[2].url
+		})
+	    }
+	}
+
+	$scope.show_album_photos = function(album_id) {
+	    $scope.photo_start_index = 1;
+	    $scope.photos = [];
+
+	    $scope.current_album_id = album_id;
+	    $scope.fetch_photos();
+	}
+
+	$scope.fetch_photos = function() {
+	    var params = $.param({
+		'access_token': $scope.access_token,
+		'start_index': $scope.photo_start_index,
+		'max_results': $scope.photo_max_results,
+		'album_id': $scope.current_album_id
+	    });
+
+	    $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+	    $http.post('/_/get_photos/', params).success(function(response) {
+		if (response.status_code == '200') {
+		    $scope.fill_photos(eval('(' + response.content + ')'))
+		} else {
+		    // todo(iwongu): show error message.
+		}
+	    }).error(function() {
+		// todo(iwongu): show error message.
+	    });
+	}
+
+	$scope.load_more_albums = function() {
+	    if ($scope.albums.length + 1 == $scope.album_start_index) {
+		$scope.fetch_albums();
+	    }
+	}
+
+	$scope.fill_albums = function(data) {
+	    $scope.album_start_index += $scope.album_max_results;
+	    for (var i = 0; i < data.feed.entry.length; i++) {
+		var entry = data.feed.entry[i];
+		$scope.albums.push({
+		    'title': entry.title.$t,
+		    'thumbnail': entry.media$group.media$thumbnail[0].url,
+		    'album_id': entry.link[0].href,
+		    'num_photos': entry.gphoto$numphotos.$t,
+		    'is_from_post': (entry.gphoto$albumType && entry.gphoto$albumType.$t) == 'Buzz'
+		})
+	    }
+	}
+
+	$scope.fetch_albums = function() {
+	    var params = $.param({
+		'access_token': $scope.access_token,
+		'start_index': $scope.album_start_index,
+		'max_results': $scope.album_max_results
+	    });
+
+	    $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+	    $http.post('/_/get_albums/', params).success(function(response) {
+		if (response.status_code == '200') {
+		    $scope.fill_albums(eval('(' + response.content + ')'))
+		} else {
+		    // todo(iwongu): show error message.
+		}
+	    }).error(function() {
+		// todo(iwongu): show error message.
+	    });
+	}
+
+
+	$scope.check_oauth2 = function() {
+	    if (window.location.hash) {
+		$scope.access_token = window.location.hash.match(/#access_token=(.*?)&.*/)[1];
+		$scope.fetch_albums();
+		return;
+	    }
+
+	    var endpoint = 'https://accounts.google.com/o/oauth2/auth';
+	    var params = {
+		'response_type': 'token',
+		'client_id': '199636182844.apps.googleusercontent.com', // from config.
+		'redirect_uri': 'http://localhost:8080/admin/picker',
+		'scope': 'https://picasaweb.google.com/data/'
+	    };
+
+	    var url_params = [];
+	    for (var name in params) {
+		url_params.push(
+		    encodeURIComponent(name) + '=' + encodeURIComponent(params[name]));
+	    }
+	    window.location = endpoint + '?' + url_params.join("&");
+	}
+
+	$scope.check_oauth2();
+    }]);
+
+angular.module('myApp.scroll', []).directive('whenScrolled', function() {
+    return function(scope, elm, attr) {
+        var raw = elm[0];
+        elm.bind('scroll', function() {
+            if (raw.scrollTop + raw.offsetHeight >= raw.scrollHeight) {
+                scope.$apply(attr.whenScrolled);
+            }
+        });
+    };
+});

@@ -114,7 +114,7 @@ angular.module('myApp.controllers', []).controller('AdminCtrl', [
 			break;
 		    }
 		}
-		$scope.posts.splice(i, i +1);
+		$scope.posts.splice(i, 1);
 		$scope.prepare_new_post();
 	    }).error(function() {
 		// todo(iwongu): show error message.

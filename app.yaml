@@ -30,6 +30,11 @@ handlers:
   login: admin
   secure: always
 
+- url: /admin/picker
+  script: admin.admin.application
+  login: required
+  secure: always
+
 - url: /admin(/js)?
   script: admin.admin.application
   login: required

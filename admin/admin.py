@@ -60,8 +60,20 @@ class AdminJsPage(AdminBase):
         self.response.write('$blogae_scripts = [];' + config.admin_script)
 
 
+class AdminPickerPage(AdminBase):
+    def get(self):
+        user = users.get_current_user()
+        config = data.Config.get_singleton()
+        template_values = {
+            'user': user,
+            'config': config,
+            }
+        self.response.write(self.render('picker.html', template_values))
+
+
 application = webapp2.WSGIApplication([
         ('/admin/config', AdminConfigPage),
+        ('/admin/picker', AdminPickerPage),
         ('/admin/js', AdminJsPage),
         ('/admin', AdminPage),
     ], debug=True)

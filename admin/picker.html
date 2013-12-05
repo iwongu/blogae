@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html ng-app="myApp">
+  <head>
+    <script type="text/javascript" src="/js/jquery-2.0.3.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular-resource.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular-route.min.js"></script>
+    <script src="/js/picker.js"></script>
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700">
+    <link rel="stylesheet" type="text/css" href="/css/picker.css">
+  </head>
+  <body ng-controller="PickerCtrl">
+    <aside class="sidebar">
+      <div class="album-list" when-scrolled="load_more_albums()">
+	<menu>
+	  {% raw %}
+	  <menuitem ng-repeat="album in albums" class="album"
+		    ng-click="show_album_photos(album.album_id)">
+            <div class="thumbnail">
+	      <img ng-src="{{album.thumbnail}}">
+            </div>
+	    <div class="title">{{album.title}} ({{album.num_photos}})</div>
+          </menuitem>
+          {% endraw %}
+        </menu>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="header">
+	<div class="selected-photo-list">
+	  {% raw %}
+	  <span ng-repeat="photo in selected_photos" ng-click="deselect_photo(photo)"
+		class="selected-photo">
+	    <img ng-src="{{photo.thumbnail_small}}">
+	  </span>
+          {% endraw %}
+	</div>
+      </header>
+      <div class="container">
+	<div class="photo-list" when-scrolled="load_more_photos()">
+	  {% raw %}
+	  <span ng-repeat="photo in photos" ng-click="select_photo(photo)" class="photo">
+	    <img ng-src="{{photo.thumbnail_medium}}">
+	  </span>
+          {% endraw %}
+	</div>
+      </div>
+    </main>
+  </body>
+</html>
+{% endautoescape %}

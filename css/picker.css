@@ -1,0 +1,108 @@
+@import url(normalize.css);
+
+body {
+    color: #3A4145;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.2rem;
+    height: 100%;
+    line-height: 1.6em;
+    margin: 0;
+    max-height: 100%;
+}
+
+
+/**
+ ** layouts.
+ **/
+
+/*
+ * sidebar width: 300px;
+ * header height: 100px;
+ */
+.main {
+    bottom: 0;
+    left: 300px; /* sidebar */
+    position: absolute;
+    right: 0;
+    top: 0;
+    background-color: #EDECE4;
+}
+
+.sidebar {
+    background-color: white;
+    bottom: 0;    
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 300px; /* sidebar */
+}
+
+.header {
+    height: 100px; /* header */
+    top: 0;
+    background-color: #333;
+}
+
+.container {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 100px; /* header */
+}
+
+/**
+ ** styles.
+ **/
+
+.album-list {
+    height: 100%;
+    overflow: auto;
+    border-right: 1px solid #ccc;
+}
+.album-list menu {
+    margin: 0;
+    padding: 0;
+}
+.album-list menuitem {
+    cursor: pointer;
+}
+.album-list menuitem:hover {
+    background-color: #EDECE4;
+}
+.album {
+    display: block;
+    clear: both;
+    min-height: 64px;
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+}
+.album .thumbnail {
+}
+.album .thumbnail img {
+    width: 64px;
+    float: left;
+    margin-right: 20px;
+}
+.album .title {
+}
+
+.selected-photo-list {
+    padding: 10px 0;
+    white-space: nowrap;
+    overflow: auto;
+}
+.selected-photo-list img {
+    cursor: pointer;
+    vertical-align: top;
+}
+
+.photo-list {
+    height: 100%;
+    overflow: auto;
+    margin: 10px 15px;
+}
+.photo-list img {
+    cursor: pointer;
+}
+
