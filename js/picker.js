@@ -11,6 +11,7 @@ angular.module('myApp', [
 angular.module('myApp.controllers', []).controller('PickerCtrl', [
     '$scope', '$http', '$element', '$window',
     function($scope, $http, $element, $window) {
+	$scope.config = '';
 	$scope.access_token = '';
 
 	$scope.album_start_index = 1; // 1-based.
@@ -146,8 +147,8 @@ angular.module('myApp.controllers', []).controller('PickerCtrl', [
 	    var endpoint = 'https://accounts.google.com/o/oauth2/auth';
 	    var params = {
 		'response_type': 'token',
-		'client_id': '199636182844.apps.googleusercontent.com', // from config.
-		'redirect_uri': 'http://localhost:8080/admin/picker',
+		'client_id': $scope.config.client_id,
+		'redirect_uri': window.location.href,
 		'scope': 'https://picasaweb.google.com/data/'
 	    };
 
@@ -159,7 +160,17 @@ angular.module('myApp.controllers', []).controller('PickerCtrl', [
 	    window.location = endpoint + '?' + url_params.join("&");
 	}
 
-	$scope.check_oauth2();
+	$scope.fetch_config = function() {
+	    $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+	    $http.post('/_/get_config/').success(function(data) {
+		$scope.config = data.config;
+		$scope.check_oauth2();
+	    }).error(function() {
+		// todo(iwongu): show error message.
+	    });
+	}
+
+	$scope.fetch_config();
     }]);
 
 angular.module('myApp.scroll', []).directive('whenScrolled', function() {

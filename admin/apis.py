@@ -128,6 +128,7 @@ class SaveConfig(webapp2.RequestHandler):
         config.blog_page_size = int(self.request.get('blog_page_size'))
         config.blog_summary_size = int(self.request.get('blog_summary_size'))
         config.authors = authors
+        config.client_id = self.request.get('client_id')
         config.admin_script = self.request.get('admin_script')
         config.blog_script = self.request.get('blog_script')
         config.post_script = self.request.get('post_script')
@@ -140,8 +141,10 @@ class SaveConfig(webapp2.RequestHandler):
 class GetAlbums(webapp2.RequestHandler):
     def post(self):
         user = users.get_current_user()
+        email = user.email()
+        userid = email[0:email.find('@')]
         access_token = self.request.get('access_token')
-        endpoint = 'https://picasaweb.google.com/data/feed/api/user/' + 'iwongu' + \
+        endpoint = 'https://picasaweb.google.com/data/feed/api/user/' + userid + \
             '?alt=json' + \
             '&access=all' + \
             '&start-index=' + self.request.get('start_index') + \
@@ -151,6 +154,8 @@ class GetAlbums(webapp2.RequestHandler):
             endpoint,
             method = urlfetch.GET,
             headers = headers)
+        if response.status_code != 200:
+            logging.error(str(response.status_code) + ': ' + response.content)
         self.response.write(json.dumps({
                     'status_code': response.status_code,
                     'content': response.content

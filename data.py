@@ -18,7 +18,7 @@ class Config(ndb.Model):
     blog_page_size = ndb.IntegerProperty()
     blog_summary_size = ndb.IntegerProperty()
     authors = ndb.StringProperty(repeated=True)
-    authors = ndb.StringProperty(repeated=True)
+    client_id = ndb.StringProperty()
     admin_script = ndb.TextProperty()
     blog_script = ndb.TextProperty()
     post_script = ndb.TextProperty()
@@ -50,6 +50,7 @@ class Config(ndb.Model):
             'blog_page_size': self.blog_page_size,
             'blog_summary_size': self.blog_summary_size,
             'authors': ','.join(self.authors),
+            'client_id': self.client_id,
             'admin_script': self.admin_script,
             'blog_script': self.blog_script,
             'post_script': self.post_script,
