@@ -33,6 +33,7 @@
 	  {% raw %}
 	  <span ng-repeat="photo in selected_photos" ng-click="deselect_photo(photo)"
 		class="selected-photo">
+	    <div class="img-helper"></div>
 	    <img ng-src="{{photo.thumbnail_small}}">
 	  </span>
           {% endraw %}
@@ -42,6 +43,7 @@
 	<div class="photo-list" when-scrolled="load_more_photos()">
 	  {% raw %}
 	  <span ng-repeat="photo in photos" ng-click="select_photo(photo)" class="photo">
+	    <div class="img-helper"></div>
 	    <img ng-src="{{photo.thumbnail_medium}}">
 	  </span>
           {% endraw %}
