@@ -1,4 +1,5 @@
 @import url(normalize.css);
+@import url(button.css);
 
 body {
     color: #3A4145;
@@ -198,45 +199,6 @@ menuitem {
     right: 0;
 }
 
-.button {
-    border-radius: 2px;
-    border: none;
-    color: rgba(255,255,255,0.8);
-    cursor: pointer;
-    display: block;
-    font-size: 11px;
-    font-weight: bold;
-    height: 30px;
-    margin: 0;
-    outline: none !important;
-    padding: 0px 6px;
-    text-align: center;
-    text-transform: uppercase;
-    width: auto;
-
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
-.button:hover {
-    opacity: 0.8;
-}
-button:disabled {
-    opacity: 0.3 !important;
-}
-.button.primary {
-    background-color: #5ba4e5;
-}
-.button.secondary {
-    background-color: #9fbb58;
-}
-.button.dangerous {
-    background-color: #c91d12;
-}
-.button.checked {
-    opacity: 0.6;
-}
-
 .tags input {
     font-size: 15px;
     border: none;
@@ -330,7 +292,6 @@ input::-webkit-input-placeholder {
 #post-preview {
     padding: 0 20px;
     background-color: white;
-/*    zoom: 46%;*/
 }
 
 
@@ -353,3 +314,4 @@ blockquote {
     padding: 0 1.6em;
     margin: 1.6em 0;
 }
+

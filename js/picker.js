@@ -11,7 +11,7 @@ angular.module('myApp', [
 angular.module('myApp.controllers', []).controller('PickerCtrl', [
     '$scope', '$http', '$element', '$window',
     function($scope, $http, $element, $window) {
-	$scope.config = '';
+	$scope.config = null;
 	$scope.access_token = '';
 
 	$scope.album_start_index = 1; // 1-based.
@@ -24,29 +24,39 @@ angular.module('myApp.controllers', []).controller('PickerCtrl', [
 	$scope.photos = [];
 
 	$scope.selected_photos = [];
+	$scope.selected_photo_ids = [];
+
+	$scope.cancel = function() {
+	    $window.opener.document.getElementById('selected_photos').value = '';
+	    $window.close();
+	}
+
+	$scope.done = function() {
+	    var photos = '';
+	    for (var i = 0; i < $scope.selected_photos.length; i++) {
+		var photo = $scope.selected_photos[i];
+		photos += ' ' + encodeURI(photo.src)
+	    }
+	    $window.opener.document.getElementById('selected_photos').value =
+		photos.substring(1, photos.length);
+	    $window.close();
+	}
 
 	$scope.select_photo = function(photo) {
-	    var index = $scope.find_photo_in_selected(photo.photo_id);
-	    if (index == -1) {
+	    if ($scope.selected_photo_ids.indexOf(photo.photo_id) == -1) {
+		$scope.selected_photo_ids.push(photo.photo_id);
 		$scope.selected_photos.push(photo);
+		photo.selected = true;
 	    }
 	}
 
 	$scope.deselect_photo = function(photo) {
-	    var index = $scope.find_photo_in_selected(photo.photo_id);
+	    var index = $scope.selected_photo_ids.indexOf(photo.photo_id);
 	    if (index != -1) {
+		$scope.selected_photo_ids.splice(index, 1);
 		$scope.selected_photos.splice(index, 1);
+		photo.selected = false;
 	    }
-	}
-
-	$scope.find_photo_in_selected = function(photo_id) {
-	    var i = 0;
-	    for (; i < $scope.selected_photos.length; i++) {
-		if ($scope.selected_photos[i].photo_id == photo_id) {
-		    break;
-		}
-	    }
-	    return i == $scope.selected_photos.length ? -1 : i;
 	}
 
 	$scope.load_more_photos = function() {
@@ -64,7 +74,8 @@ angular.module('myApp.controllers', []).controller('PickerCtrl', [
 		    'src': entry.content.src,
 		    'thumbnail_small': entry.media$group.media$thumbnail[0].url,
 		    'thumbnail_medium': entry.media$group.media$thumbnail[1].url,
-		    'thumbnail_large': entry.media$group.media$thumbnail[2].url
+		    'thumbnail_large': entry.media$group.media$thumbnail[2].url,
+		    'selected': $scope.selected_photo_ids.indexOf(entry.id.$t) != -1
 		})
 	    }
 	}

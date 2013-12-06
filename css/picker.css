@@ -1,4 +1,5 @@
 @import url(normalize.css);
+@import url(button.css);
 
 body {
     color: #3A4145;
@@ -19,12 +20,23 @@ body {
  * sidebar width: 300px;
  * header height: 100px;
  */
+.title-header {
+    height: 50px;
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 0;
+    background-color: #333;
+    font-weight: bold;
+    color: #ccc;
+    padding: 10px 0 0 20px;
+}
 .main {
     bottom: 0;
     left: 300px; /* sidebar */
     position: absolute;
     right: 0;
-    top: 0;
+    top: 50px;
     background-color: #EDECE4;
 }
 
@@ -33,14 +45,16 @@ body {
     bottom: 0;    
     position: absolute;
     left: 0;
-    top: 0;
+    top: 50px;
     width: 300px; /* sidebar */
 }
 
 .header {
     height: 100px; /* header */
     top: 0;
-    background-color: #333;
+    background-color: white;
+    border-left: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
 }
 
 .container {
@@ -55,6 +69,19 @@ body {
 /**
  ** styles.
  **/
+
+.title-header menu {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+    margin-right: 20px;
+}
+
+.title-header menuitem {
+    display: inline-block;
+    margin: 0 5px;
+    vertical-align: top;
+}
 
 .album-list {
     height: 100%;
@@ -102,7 +129,7 @@ body {
     display: inline-block;
     text-align: center;
     background-color: white;
-    border: 1px solid #333;
+    border: 1px solid #ccc;
     margin: 10px 5px;
 }
 .selected-photo .img-helper {
@@ -142,5 +169,8 @@ body {
 .photo img {
     display: inline-block;
     vertical-align: middle;
+}
+.photo.selected {
+    background-color: cornflowerblue;
 }
 

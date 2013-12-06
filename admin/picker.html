@@ -11,10 +11,21 @@
     <link rel="stylesheet" type="text/css" href="/css/picker.css">
   </head>
   <body ng-controller="PickerCtrl">
+    <header class="title-header">
+      <span class="title">{{config.blog_title}} - photo picker ({{'{{selected_photos.length}}'}})</span>
+      <menu>
+        <menuitem>
+	  <button class="button secondary" ng-click="done()">Cancel</button>
+	</menuitem>
+        <menuitem>
+	  <button class="button primary" ng-click="done()">Done</button>
+        </menuitem>
+      </menu>
+    </header>
+    {% raw %}
     <aside class="sidebar">
       <div class="album-list" when-scrolled="load_more_albums()">
 	<menu>
-	  {% raw %}
 	  <menuitem ng-repeat="album in albums" class="album"
 		    ng-click="show_album_photos(album.album_id)">
             <div class="thumbnail">
@@ -22,7 +33,6 @@
             </div>
 	    <div class="title">{{album.title}} ({{album.num_photos}})</div>
           </menuitem>
-          {% endraw %}
         </menu>
       </div>
     </aside>
@@ -30,26 +40,24 @@
     <main class="main">
       <header class="header">
 	<div class="selected-photo-list">
-	  {% raw %}
 	  <span ng-repeat="photo in selected_photos" ng-click="deselect_photo(photo)"
 		class="selected-photo">
 	    <div class="img-helper"></div>
 	    <img ng-src="{{photo.thumbnail_small}}">
 	  </span>
-          {% endraw %}
 	</div>
       </header>
       <div class="container">
 	<div class="photo-list" when-scrolled="load_more_photos()">
-	  {% raw %}
-	  <span ng-repeat="photo in photos" ng-click="select_photo(photo)" class="photo">
+	  <span ng-repeat="photo in photos" ng-click="select_photo(photo)" class="photo"
+		    ng-class="{selected: photo.selected}">
 	    <div class="img-helper"></div>
 	    <img ng-src="{{photo.thumbnail_medium}}">
 	  </span>
-          {% endraw %}
 	</div>
       </div>
     </main>
+    {% endraw %}
   </body>
 </html>
 {% endautoescape %}

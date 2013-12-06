@@ -47,7 +47,7 @@
           <div class="content-container">
             <div class="post-content-container">
               <div class="textarea-container">
-                <textarea ng-model="content" ng-change="edited=true; content_changed()" placeholder="Type your story..."></textarea>
+                <textarea id="content" ng-model="content" ng-change="edited=true; content_changed()" placeholder="Type your story..."></textarea>
               </div>
               <div class="post-help-container" ng-show="help_showing">
 		<div class="post-help">
@@ -75,6 +75,9 @@
             <button class="button secondary" ng-click="toggle_metadata_editing()">{{metadata_editing}}</button>
           </menuitem>
           <menuitem>
+            <button class="button secondary" ng-click="open_photo_picker()">Photos</button>
+          </menuitem>
+          <menuitem>
             <button ng-disabled="((!edited || content.length == 0) && (!selected_post || selected_post.is_draft)) || !check_date_format() || saving"
                     class="button primary" ng-click="save()">Save as draft</button>
           </menuitem>
@@ -95,6 +98,7 @@
         </menu>
       </footer>
     </main>
+    <input id="selected_photos" type="hidden"></input>
   </body>
 </html>
 {% endautoescape %}

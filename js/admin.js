@@ -30,6 +30,7 @@ angular.module('myApp.controllers', []).controller('AdminCtrl', [
 	$scope.metadata_editing = 'tags'; // or published or permalink.
 	$scope.blogae_scripts = $blogae_scripts;
 
+
         $scope.edit = function(postid) {
             angular.forEach($scope.posts, function(post) {
                 if (post.id == postid) {
@@ -207,6 +208,35 @@ angular.module('myApp.controllers', []).controller('AdminCtrl', [
 	$scope.call_blogae_script = function(num) {
 	    $scope.content = $scope.blogae_scripts[num]($scope.content);
 	    $scope.edited = true;
+	    $scope.content_changed();
+	}
+
+	$scope.open_photo_picker = function() {
+	    var picker = $window.open('/admin/picker', 'picker');
+	    var timer = $window.setInterval(function() {
+		if (picker.closed !== false) {
+		    $window.clearInterval(timer);
+		    $scope.photos_selected();
+		}
+	    }, 200);
+	}
+
+	$scope.photos_selected = function() {
+	    var photos = $window.document.getElementById('selected_photos').value.split(' ');
+	    var content_el = $window.document.getElementById('content');
+	    var caret = content_el.selectionStart;
+	    var new_content = $scope.content.slice(0, caret);
+	    new_content += '\n';
+	    for (var i = 0; i < photos.length; i++) {
+		new_content += '\n![](' + photos[i] + ')\n';
+	    }
+	    new_content += '\n';
+	    new_content += $scope.content.slice(caret, $scope.content.length);
+	    $scope.content = new_content;
+
+	    $scope.$apply();
+
+            $scope.edited = true;
 	    $scope.content_changed();
 	}
 

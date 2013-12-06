@@ -104,7 +104,7 @@ blockquote {
 
 .post-content img {
     height: auto;
-    width: 100%;
+    max-width: 100%;
 }
 
 .post-content img.post-thumbnail {
