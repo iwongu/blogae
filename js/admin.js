@@ -222,7 +222,11 @@ angular.module('myApp.controllers', []).controller('AdminCtrl', [
 	}
 
 	$scope.photos_selected = function() {
-	    var photos = $window.document.getElementById('selected_photos').value.split(' ');
+	    var value = $window.document.getElementById('selected_photos').value;
+	    if (!value) {
+		return;
+	    }
+	    var photos = value.split(' ');
 	    var content_el = $window.document.getElementById('content');
 	    var caret = content_el.selectionStart;
 	    var new_content = $scope.content.slice(0, caret);

@@ -40,7 +40,12 @@ handlers:
   login: required
   secure: always
 
-- url: /_/(get_config|save_config)/
+- url: /_/get_config/
+  script: admin.apis.application
+  login: required
+  secure: always
+
+- url: /_/save_config/
   script: admin.apis.application
   login: admin
   secure: always
