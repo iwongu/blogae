@@ -89,7 +89,8 @@ class Post(ndb.Model):
             'date_published_epoch': self.date_published.strftime('%s'),
             'date_created': self.date_created.strftime('%d %b %Y %H:%M'),
             'date_created_epoch': self.date_created.strftime('%s'),
-            'is_draft': self.is_draft
+            'is_draft': self.is_draft,
+            'editable': self.author == users.get_current_user() or users.is_current_user_admin()
             }
 
     def add_converted_attributes(self, summary_only=False, for_atom=False):

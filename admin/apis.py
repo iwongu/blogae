@@ -11,6 +11,13 @@ import urllib
 import webapp2
 
 
+class ApiBase(webapp2.RequestHandler):
+    def check_author(self, post):
+        user = users.get_current_user()
+        if not (post.author == user or users.is_current_user_admin()):
+            self.abort(403)
+
+
 class GetPosts(webapp2.RequestHandler):
     """Gets posts. If next_post_id is given, this will fetch from the id."""
     def post(self):
@@ -36,7 +43,7 @@ class GetPosts(webapp2.RequestHandler):
         self.response.write(json.dumps(response))
 
 
-class SavePost(webapp2.RequestHandler):
+class SavePost(ApiBase):
     def post(self):
         self.save_post(True)
 
@@ -56,6 +63,7 @@ class SavePost(webapp2.RequestHandler):
             post.permalink = self.sanitize_permalink(title)
         else:
             post = data.Post.get_by_id(int(postid))
+            self.check_author(post);
             if len(permalink) > 0:
                 post.permalink = self.sanitize_permalink(permalink)
             else:
@@ -99,8 +107,11 @@ class PublishPost(SavePost):
 
 class DeletePost(webapp2.RequestHandler):
     def post(self):
+        self.check_author();
+
         postid = self.request.get('postid')
         post = data.Post.get_by_id(int(postid))
+        self.check_author(post);
         post.key.delete()
         self.response.write(json.dumps({'postid': postid}))
         mcache.dirty_all()

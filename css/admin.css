@@ -147,6 +147,9 @@ body {
     resize: none;
     width: 100%;
 }
+.post-content-container textarea[readonly="readonly"] {
+    background-color: #DEDEDE;
+}
 
 .post-help-container {
     background-color: white;
@@ -240,6 +243,10 @@ input::-webkit-input-placeholder {
 .post-list menuitem.checked {
     background-color: #EDECE4;
 }
+.post-list menuitem.readonly {
+    background-color: #DEDEDE;
+    color: #999;
+}
 
 .new-post {
     background-color: #5ba4e5;
@@ -295,7 +302,8 @@ input::-webkit-input-placeholder {
 .post-preview-banner {
     font-weight: bold;
     position: absolute;
-    opacity: 0.3;
+    opacity: 0.1;
+    color: coral;
     font-size: 150px;
     top: 300px;
     right: -220px;

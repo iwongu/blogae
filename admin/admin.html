@@ -22,13 +22,15 @@
 	  </menuitem>
 	  {% raw %}
 	  <menuitem ng-repeat="post in posts"
-	            ng-class="{draft: post.is_draft, checked: post.id == selected_post.id}">
+	            ng-class="{draft: post.is_draft,
+			      checked: post.id == selected_post.id,
+			      readonly: !post.editable}">
             <div ng-click="edit(post.id)" class="menu-title">
               {{post.title.length == 0 ? '(No title)' : (post.is_draft ? post.title + ' (draft)' : post.title)}}
             </div>
             <div class="menu-info">
-	      <span ng-show="!post.is_draft"><a href="{{post.permalink_full}}" target="view">View</a>
-	      <span ng-show="!post.is_draft"> - </a>
+	      <a href="{{post.permalink_full}}" target="view" ng-show="!post.is_draft">VIEW</a>
+	      <span ng-show="!post.is_draft"> - </span>
 	      <span class="menu-author">{{post.author.nickname}}</span>
               <span class="menu-date">{{post.date_published}}</span>
             </div>
@@ -49,7 +51,9 @@
           <div class="content-container">
             <div class="post-content-container">
               <div class="textarea-container">
-                <textarea id="content" ng-model="content" ng-change="edited=true; content_changed()" placeholder="Type your story..."></textarea>
+                <textarea id="content" ng-model="content" ng-change="edited=true; content_changed()"
+			  ng-readonly="!!selected_post && !selected_post.editable"
+			  placeholder="Type your story..."></textarea>
               </div>
               <div class="post-help-container" ng-show="help_showing">
 		<div class="post-help">
@@ -80,11 +84,11 @@
             <button class="button secondary" ng-click="open_photo_picker()">Photos</button>
           </menuitem>
           <menuitem>
-            <button ng-disabled="((!edited || content.length == 0) && (!selected_post || selected_post.is_draft)) || !check_date_format() || saving"
+            <button ng-disabled="((!edited || content.length == 0) && (!selected_post || selected_post.is_draft)) || !check_date_format() || !selected_post.editable || saving"
                     class="button primary" ng-click="save()">Save as draft</button>
           </menuitem>
           <menuitem>
-            <button ng-disabled="((!edited || content.length == 0) && !selected_post.is_draft) || !check_date_format() || saving"
+            <button ng-disabled="((!edited || content.length == 0) && !selected_post.is_draft) || !check_date_format() || !selected_post.editable || saving"
                     class="button primary" ng-click="publish()">Publish</button>
           </menuitem>
           <menuitem ng-repeat="blogae_script in blogae_scripts">
@@ -94,7 +98,8 @@
             <button class="button secondary" ng-mouseover="help_showing=true" ng-mouseleave="help_showing=false">?</button>
           </menuitem>
           <menuitem>
-            <button ng-disabled="!selected_post || saving" class="button dangerous" ng-click="delete_post()">X</button>
+            <button ng-disabled="!selected_post || !selected_post.editable || saving"
+		    class="button dangerous" ng-click="delete_post()">X</button>
           </menuitem>
           {% endraw %}
         </menu>
