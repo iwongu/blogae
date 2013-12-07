@@ -18,7 +18,7 @@ class ApiBase(webapp2.RequestHandler):
             self.abort(403)
 
 
-class GetPosts(webapp2.RequestHandler):
+class GetPosts(ApiBase):
     """Gets posts. If next_post_id is given, this will fetch from the id."""
     def post(self):
         config = data.Config.get_singleton()
@@ -105,10 +105,8 @@ class PublishPost(SavePost):
         self.save_post(False)
 
 
-class DeletePost(webapp2.RequestHandler):
+class DeletePost(ApiBase):
     def post(self):
-        self.check_author();
-
         postid = self.request.get('postid')
         post = data.Post.get_by_id(int(postid))
         self.check_author(post);
@@ -117,12 +115,12 @@ class DeletePost(webapp2.RequestHandler):
         mcache.dirty_all()
 
 
-class GetConfig(webapp2.RequestHandler):
+class GetConfig(ApiBase):
     def post(self):
         self.response.write(json.dumps({'config': data.Config.get_singleton().serialize()}))
 
 
-class SaveConfig(webapp2.RequestHandler):
+class SaveConfig(ApiBase):
     def post(self):
         authors = [
             author.strip()
@@ -149,7 +147,7 @@ class SaveConfig(webapp2.RequestHandler):
         mcache.dirty_all()
 
 
-class GetAlbums(webapp2.RequestHandler):
+class GetAlbums(ApiBase):
     def post(self):
         user = users.get_current_user()
         email = user.email()
@@ -173,7 +171,7 @@ class GetAlbums(webapp2.RequestHandler):
                     }))
 
 
-class GetPhotos(webapp2.RequestHandler):
+class GetPhotos(ApiBase):
     def post(self):
         user = users.get_current_user()
         access_token = self.request.get('access_token')

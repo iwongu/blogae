@@ -84,11 +84,11 @@
             <button class="button secondary" ng-click="open_photo_picker()">Photos</button>
           </menuitem>
           <menuitem>
-            <button ng-disabled="((!edited || content.length == 0) && (!selected_post || selected_post.is_draft)) || !check_date_format() || !selected_post.editable || saving"
+            <button ng-disabled="((!edited || content.length == 0) && (!selected_post || selected_post.is_draft)) || !check_date_format() || (selected_post && !selected_post.editable) || saving"
                     class="button primary" ng-click="save()">Save as draft</button>
           </menuitem>
           <menuitem>
-            <button ng-disabled="((!edited || content.length == 0) && !selected_post.is_draft) || !check_date_format() || !selected_post.editable || saving"
+            <button ng-disabled="((!edited || content.length == 0) && !selected_post.is_draft) || !check_date_format() || (selected_post && !selected_post.editable) || saving"
                     class="button primary" ng-click="publish()">Publish</button>
           </menuitem>
           <menuitem ng-repeat="blogae_script in blogae_scripts">
@@ -98,7 +98,7 @@
             <button class="button secondary" ng-mouseover="help_showing=true" ng-mouseleave="help_showing=false">?</button>
           </menuitem>
           <menuitem>
-            <button ng-disabled="!selected_post || !selected_post.editable || saving"
+            <button ng-disabled="!selected_post || (selected_post && !selected_post.editable) || saving"
 		    class="button dangerous" ng-click="delete_post()">X</button>
           </menuitem>
           {% endraw %}
