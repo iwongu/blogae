@@ -27,15 +27,15 @@ class MainBase(webapp2.RequestHandler):
         template = JINJA_ENVIRONMENT.get_template(template_name)
         return template.render(template_values)
 
-    def check_mcache(self):
-        response = mcache.get_path(self.request.path)
+    def check_mcache(self, opt_key=''):
+        response = mcache.get_path(self.request.path + opt_key)
         if response is not None:
             self.response.write(response)
             return True
         return False
 
-    def set_mcache(self, response):
-        mcache.set_path(self.request.path, response)
+    def set_mcache(self, response, opt_key=''):
+        mcache.set_path(self.request.path + opt_key, response)
 
     def base_query(self):
         return data.Post.query(data.Post.is_draft == False)
@@ -211,12 +211,17 @@ class PermalinkPage(PostBase):
 
 class FeedPage(MainBase):
     def get(self):
-        if self.check_mcache():
+        sizestr = self.request.get('size', '10')
+        size = int(sizestr)
+        if size <= 0:
+            self.abort(400)
+
+        if self.check_mcache(sizestr):
             return
 
         config = data.Config.get_singleton()
 
-        posts = self.base_query().order(-data.Post.date_published).fetch(10)
+        posts = self.base_query().order(-data.Post.date_published).fetch(size)
         for post in posts:
             post.add_converted_attributes(False, True)
         template_values = {
@@ -226,7 +231,7 @@ class FeedPage(MainBase):
         response = self.render('atom.xml', template_values)
         self.response.headers['Content-Type'] = 'application/xml'
         self.response.write(response)
-        self.set_mcache(response)
+        self.set_mcache(response, sizestr)
 
 
 
