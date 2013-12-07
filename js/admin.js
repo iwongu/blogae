@@ -237,10 +237,9 @@ angular.module('myApp.controllers', []).controller('AdminCtrl', [
 	    new_content += '\n';
 	    new_content += $scope.content.slice(caret, $scope.content.length);
 	    $scope.content = new_content;
+            $scope.edited = true;
 
 	    $scope.$apply();
-
-            $scope.edited = true;
 	    $scope.content_changed();
 	}
 
