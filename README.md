@@ -18,9 +18,18 @@ Features
  * Supports photo section from G+ photos (a.k.a. Picasa). And yes, you can select your non-public photos too. It requires some extra configuration in your GAE and blogae configs.
 
 
-Installation
-------------
-See wiki.
+Demo
+----
+
+ * http://blogae-demo.appspot.com - demo blog.
+ * https://blogae-demo.appspot.com/admin - admin page
+
+You can try creating a post in the demo blog. You should be able to select some photos from your Google+ albums. To do this, you need to authorize the photo picker page.
+
+
+Note
+----
+For other information such as installation, see wiki. If you have some feedback or feature requests, please file an issue for that.
 
 
 Screenshot
