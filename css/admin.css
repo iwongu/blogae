@@ -230,7 +230,7 @@ input::-webkit-input-placeholder {
 }
 
 .post-list menuitem {
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #ccc;
     display: block;
     padding: 10px 0 0 10px;
 }
