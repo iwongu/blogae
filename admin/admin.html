@@ -18,7 +18,7 @@
 	<menu>
 	  <menuitem class="new-post" ng-click="new_post()">
 	    <div class="menu-title">Write new post</div>
-	    <div class="menu-date">Right now</div>
+	    <div class="menu-info">Right now</div>
 	  </menuitem>
 	  {% raw %}
 	  <menuitem ng-repeat="post in posts"
@@ -26,9 +26,11 @@
             <div ng-click="edit(post.id)" class="menu-title">
               {{post.title.length == 0 ? '(No title)' : (post.is_draft ? post.title + ' (draft)' : post.title)}}
             </div>
-            <div class="menu-date">
-              {{post.date_published}}
-	      <span ng-show="!post.is_draft"> - <a href="{{post.permalink_full}}" target="view">View</a>
+            <div class="menu-info">
+	      <span ng-show="!post.is_draft"><a href="{{post.permalink_full}}" target="view">View</a>
+	      <span ng-show="!post.is_draft"> - </a>
+	      <span class="menu-author">{{post.author.nickname}}</span>
+              <span class="menu-date">{{post.date_published}}</span>
             </div>
           </menuitem>
           {% endraw %}

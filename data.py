@@ -74,6 +74,10 @@ class Post(ndb.Model):
     def serialize(self):
         return {
             'id': self.key.id(),
+            'author': {
+                'email': self.author.email(),
+                'nickname': self.author.nickname()
+                },
             'title': self.title,
             'content': self.content,
             'content_html': self.content_html,
