@@ -29,7 +29,7 @@ You can try creating a post in the demo blog. You should be able to select some 
 
 Note
 ----
-For other information such as installation, see wiki. If you have some feedback or feature requests, please file an issue for that.
+For other information such as installation and known issues, see wiki. If you have some feedback or feature requests, please file an issue for that.
 
 
 Screenshot
