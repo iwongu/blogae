@@ -18,6 +18,7 @@ Features
  * Supports photo section from G+ photos (a.k.a. Picasa). And yes, you can select your non-public photos too. It requires some extra configuration in your GAE and blogae configs.
  * No native support for commenting. The blogae is focusing on writing posts. You still use 3rd party commenting tools like disqus. You can also use other social tools like Google +1, Facebook Like, Tweet buttons. See the demo blog. It has all these tools.
  * User scripts to automate some of your writing. For example, you can write a script in js to sanitize some htmls that you paste into the editor.
+ * You can export all your posts in Atom feed format. The feed url supports size parameter for you to be able to have all posts in a feed file.
 
 
 Demo
