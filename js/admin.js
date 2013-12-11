@@ -106,8 +106,7 @@ angular.module('myApp.controllers', []).controller('AdminCtrl', [
 	    }
 
 	    var params = $.param({'postid': $scope.selected_post.id});
-
-	    $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+	    $scope.show_message('deleting...');
 	    $http.post('/_/delete/', params).success(function(data) {
 		var i = 0;
 		for (; i < $scope.posts.length; i++) {
@@ -117,8 +116,10 @@ angular.module('myApp.controllers', []).controller('AdminCtrl', [
 		}
 		$scope.posts.splice(i, 1);
 		$scope.prepare_new_post();
+		$scope.hide_message();
 	    }).error(function() {
-		// todo(iwongu): show error message.
+		// todo(iwongu): show better error message.
+		$scope.show_error('failed to delete...');
 	    });
 	}
 
@@ -137,7 +138,7 @@ angular.module('myApp.controllers', []).controller('AdminCtrl', [
 	    }
 	    $scope.saving = true;
 	    var params = $scope.prepare_save();
-	    $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+	    $scope.show_message('saving...');
 	    $http.post(api_path, params).success(function(post) {
 		$scope.saving = false;
 		$scope.edited = false;
@@ -152,9 +153,11 @@ angular.module('myApp.controllers', []).controller('AdminCtrl', [
 		    });
 		}
 		$scope.fill_post_form(post);
+		$scope.hide_message();
 	    }).error(function() {
 		$scope.saving = false;
-		// todo(iwongu): show error message.
+		// todo(iwongu): show better error message.
+		$scope.show_error('failed to save...');
 	    });
 	}
 
@@ -222,12 +225,12 @@ angular.module('myApp.controllers', []).controller('AdminCtrl', [
 	}
 
 	$scope.photos_selected = function() {
-	    var value = $window.document.getElementById('selected_photos').value;
+	    var value = $('#selected_photos').val();
 	    if (!value) {
 		return;
 	    }
 	    var photos = value.split(' ');
-	    var content_el = $window.document.getElementById('content');
+	    var content_el = $('#content').get(0);
 	    var caret = content_el.selectionStart;
 	    var new_content = $scope.content.slice(0, caret);
 	    new_content += '\n';
@@ -243,16 +246,41 @@ angular.module('myApp.controllers', []).controller('AdminCtrl', [
 	    $scope.content_changed();
 	}
 
+	$scope.show_message = function(msg) {
+	    var el = $('#topbar');
+	    el.text(msg);
+	    el.removeClass('hide');
+	    el.removeClass('error');
+	}
+
+	$scope.show_error = function(msg) {
+	    var el = $('#topbar');
+	    el.text(msg);
+	    el.removeClass('hide');
+	    el.addClass('error');
+	}
+
+	$scope.hide_message = function() {
+	    var el = $('#topbar');
+	    el.text('');
+	    el.addClass('hide');
+	}
+
 	$scope.fetch_next = function(next_post_id) {
 	    var params = $.param({'next_post_id': next_post_id});
-	    $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+	    $scope.show_message('loading...');
 	    $http.post('/_/get_posts/', params).success(function(data) {
 		$scope.posts = $scope.posts.concat(data.posts);
 		$scope.next_post_id = data.next_post_id;
+		$scope.hide_message();
 	    }).error(function() {
-		// todo(iwongu): show error message.
+		// todo(iwongu): show beter error message.
+		$scope.show_error('failed to fetch more posts...');
 	    });
 	}
+
+	// set default header.
+	$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 
 	// fetch the posts when app is started.
 	$scope.fetch_next('')
