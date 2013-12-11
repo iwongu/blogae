@@ -99,7 +99,7 @@ angular.module('myApp.controllers', []).controller('PickerCtrl', [
 	    $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 	    $http.post('/_/get_photos/', params).success(function(response) {
 		if (response.status_code == '200') {
-		    $scope.fill_photos(eval('(' + response.content + ')'))
+		    $scope.fill_photos(angular.fromJson(response.content))
 		} else {
 		    // todo(iwongu): show error message.
 		}
@@ -138,7 +138,7 @@ angular.module('myApp.controllers', []).controller('PickerCtrl', [
 	    $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 	    $http.post('/_/get_albums/', params).success(function(response) {
 		if (response.status_code == '200') {
-		    $scope.fill_albums(eval('(' + response.content + ')'))
+		    $scope.fill_albums(angular.fromJson(response.content))
 		} else {
 		    // todo(iwongu): show error message.
 		}
