@@ -5,7 +5,7 @@
 angular.module('blogae.picker', [
     'ngRoute',
     'blogae.picker.controllers',
-    'bloage.scroll',
+    'blogae.scroll',
 ]);
 
 angular.module('blogae.picker.controllers', []).controller('PickerCtrl', [
