@@ -102,12 +102,18 @@ class Post(ndb.Model):
         if summary_only:
             replaced = re.sub(r'\!\[.*?]\([^)]*\)', '', self.content)
             replaced = re.sub(r'\[(.*?)\]\(.*?\)', r'\1', replaced)
-            replaced = re.sub(r'[ \n]+', ' ', replaced)
-            replaced = re.sub(r'[ \n]+', ' ', replaced)
+            replaced = re.sub(r'^#{1,6} ', '', replaced, flags=re.M)
+            replaced = re.sub(r'^> ', '', replaced, flags=re.M)
+            replaced = re.sub(r'\*\*(.+?)\*\*', r'\1', replaced, flags=re.M)
+            replaced = re.sub(r'\*(.+?)\*', r'\1', replaced, flags=re.M)
+            replaced = re.sub(r'^ *\* ', '', replaced, flags=re.M)
+            replaced = re.sub(r'^ *\d\. ', '', replaced, flags=re.M)
+            replaced = re.sub(r'[ \n]+', ' ', replaced, flags=re.M)
             replaced = re.sub(r'<iframe.*?</iframe>', '', replaced)
             index = replaced.find(' ', config.blog_summary_size)
-            summary = replaced[:index]
+            summary = replaced
             if index != -1:
+                summary = replaced[:index]
                 summary += '...'
             self.content_converted = summary
         else:
