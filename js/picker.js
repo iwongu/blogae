@@ -6,11 +6,12 @@ angular.module('blogae.picker', [
     'ngRoute',
     'blogae.picker.controllers',
     'blogae.scroll',
+    'blogae.topbar',
 ]);
 
-angular.module('blogae.picker.controllers', []).controller('PickerCtrl', [
-    '$scope', '$http', '$element', '$window',
-    function($scope, $http, $element, $window) {
+angular.module('blogae.picker.controllers', ['blogae.topbar']).controller('PickerCtrl', [
+    '$scope', '$http', '$window', 'topbar',
+    function($scope, $http, $window, topbar) {
 	$scope.config = null;
 	$scope.access_token = '';
 
@@ -96,15 +97,18 @@ angular.module('blogae.picker.controllers', []).controller('PickerCtrl', [
 		'album_id': $scope.current_album_id
 	    });
 
-	    $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+	    topbar.show_message('loading...');
 	    $http.post('/_/get_photos/', params).success(function(response) {
 		if (response.status_code == '200') {
 		    $scope.fill_photos(angular.fromJson(response.content))
+		    topbar.hide_message();
 		} else {
-		    // todo(iwongu): show error message.
+		    // todo(iwongu): show better error message.
+		    topbar.show_error('failed to load... ' + response.content);
 		}
 	    }).error(function() {
-		// todo(iwongu): show error message.
+		// todo(iwongu): show better error message.
+		topbar.show_error('failed to load...');
 	    });
 	}
 
@@ -135,15 +139,18 @@ angular.module('blogae.picker.controllers', []).controller('PickerCtrl', [
 		'max_results': $scope.album_max_results
 	    });
 
-	    $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+	    topbar.show_message('loading...');
 	    $http.post('/_/get_albums/', params).success(function(response) {
 		if (response.status_code == '200') {
 		    $scope.fill_albums(angular.fromJson(response.content))
+		    topbar.hide_message();
 		} else {
-		    // todo(iwongu): show error message.
+		    // todo(iwongu): show better error message.
+		    topbar.show_error('failed to load... ' + response.content);
 		}
 	    }).error(function() {
-		// todo(iwongu): show error message.
+		// todo(iwongu): show better error message.
+		topbar.show_error('failed to load...');
 	    });
 	}
 
@@ -172,7 +179,6 @@ angular.module('blogae.picker.controllers', []).controller('PickerCtrl', [
 	}
 
 	$scope.fetch_config = function() {
-	    $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 	    $http.post('/_/get_config/').success(function(data) {
 		$scope.config = data.config;
 		$scope.check_oauth2();
@@ -180,6 +186,8 @@ angular.module('blogae.picker.controllers', []).controller('PickerCtrl', [
 		// todo(iwongu): show error message.
 	    });
 	}
+
+	$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 
 	$scope.fetch_config();
     }]);

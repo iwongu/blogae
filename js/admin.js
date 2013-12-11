@@ -6,11 +6,12 @@ angular.module('blogae.admin', [
     'ngRoute',
     'blogae.admin.controllers',
     'blogae.scroll',
+    'blogae.topbar',
 ]);
 
-angular.module('blogae.admin.controllers', []).controller('AdminCtrl', [
-    '$scope', '$http', '$element', '$window',
-    function($scope, $http, $element, $window) {
+angular.module('blogae.admin.controllers', ['blogae.topbar']).controller('AdminCtrl', [
+    '$scope', '$http', '$window', 'topbar',
+    function($scope, $http, $window, topbar) {
 	$scope.title = '';
 	$scope.content = '';
 	$scope.content_html = '';
@@ -106,7 +107,7 @@ angular.module('blogae.admin.controllers', []).controller('AdminCtrl', [
 	    }
 
 	    var params = $.param({'postid': $scope.selected_post.id});
-	    $scope.show_message('deleting...');
+	    topbar.show_message('deleting...');
 	    $http.post('/_/delete/', params).success(function(data) {
 		var i = 0;
 		for (; i < $scope.posts.length; i++) {
@@ -116,10 +117,10 @@ angular.module('blogae.admin.controllers', []).controller('AdminCtrl', [
 		}
 		$scope.posts.splice(i, 1);
 		$scope.prepare_new_post();
-		$scope.hide_message();
+		topbar.hide_message();
 	    }).error(function() {
 		// todo(iwongu): show better error message.
-		$scope.show_error('failed to delete...');
+		topbar.show_error('failed to delete...');
 	    });
 	}
 
@@ -138,7 +139,7 @@ angular.module('blogae.admin.controllers', []).controller('AdminCtrl', [
 	    }
 	    $scope.saving = true;
 	    var params = $scope.prepare_save();
-	    $scope.show_message('saving...');
+	    topbar.show_message('saving...');
 	    $http.post(api_path, params).success(function(post) {
 		$scope.saving = false;
 		$scope.edited = false;
@@ -153,11 +154,11 @@ angular.module('blogae.admin.controllers', []).controller('AdminCtrl', [
 		    });
 		}
 		$scope.fill_post_form(post);
-		$scope.hide_message();
+		topbar.hide_message();
 	    }).error(function() {
 		$scope.saving = false;
 		// todo(iwongu): show better error message.
-		$scope.show_error('failed to save...');
+		topbar.show_error('failed to save...');
 	    });
 	}
 
@@ -246,36 +247,16 @@ angular.module('blogae.admin.controllers', []).controller('AdminCtrl', [
 	    $scope.content_changed();
 	}
 
-	$scope.show_message = function(msg) {
-	    var el = $('#topbar');
-	    el.text(msg);
-	    el.removeClass('hide');
-	    el.removeClass('error');
-	}
-
-	$scope.show_error = function(msg) {
-	    var el = $('#topbar');
-	    el.text(msg);
-	    el.removeClass('hide');
-	    el.addClass('error');
-	}
-
-	$scope.hide_message = function() {
-	    var el = $('#topbar');
-	    el.text('');
-	    el.addClass('hide');
-	}
-
 	$scope.fetch_next = function(next_post_id) {
 	    var params = $.param({'next_post_id': next_post_id});
-	    $scope.show_message('loading...');
+	    topbar.show_message('loading...');
 	    $http.post('/_/get_posts/', params).success(function(data) {
 		$scope.posts = $scope.posts.concat(data.posts);
 		$scope.next_post_id = data.next_post_id;
-		$scope.hide_message();
+		topbar.hide_message();
 	    }).error(function() {
 		// todo(iwongu): show beter error message.
-		$scope.show_error('failed to fetch more posts...');
+		topbar.show_error('failed to fetch more posts...');
 	    });
 	}
 
