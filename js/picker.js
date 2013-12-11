@@ -2,13 +2,13 @@
 
 
 // Declare app level module which depends on filters, and services
-angular.module('myApp', [
+angular.module('blogae.picker', [
     'ngRoute',
-    'myApp.controllers',
-    'myApp.scroll',
+    'blogae.picker.controllers',
+    'bloage.scroll',
 ]);
 
-angular.module('myApp.controllers', []).controller('PickerCtrl', [
+angular.module('blogae.picker.controllers', []).controller('PickerCtrl', [
     '$scope', '$http', '$element', '$window',
     function($scope, $http, $element, $window) {
 	$scope.config = null;

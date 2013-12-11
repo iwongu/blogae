@@ -2,12 +2,12 @@
 
 
 // Declare app level module which depends on filters, and services
-angular.module('myApp', [
+angular.module('blogae.config', [
     'ngRoute',
-    'myApp.controllers',
+    'blogae.config.controllers',
 ]);
 
-angular.module('myApp.controllers', []).controller('ConfigCtrl', [
+angular.module('blogae.config.controllers', []).controller('ConfigCtrl', [
     '$scope', '$http', '$element', '$window',
     function($scope, $http, $element, $window) {
 	$scope.config = {};

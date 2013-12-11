@@ -1,7 +1,7 @@
 'use strict';
 
 
-angular.module('myApp.scroll', []).directive('whenScrolled', function() {
+angular.module('blogae.scroll', []).directive('whenScrolled', function() {
     return function(scope, elm, attr) {
         var raw = elm[0];
         elm.bind('scroll', function() {

@@ -2,13 +2,13 @@
 
 
 // Declare app level module which depends on filters, and services
-angular.module('myApp', [
+angular.module('blogae.admin', [
     'ngRoute',
-    'myApp.controllers',
-    'myApp.scroll',
+    'blogae.admin.controllers',
+    'blogae.scroll',
 ]);
 
-angular.module('myApp.controllers', []).controller('AdminCtrl', [
+angular.module('blogae.admin.controllers', []).controller('AdminCtrl', [
     '$scope', '$http', '$element', '$window',
     function($scope, $http, $element, $window) {
 	$scope.title = '';
