@@ -285,15 +285,3 @@ angular.module('myApp.controllers', []).controller('AdminCtrl', [
 	// fetch the posts when app is started.
 	$scope.fetch_next('')
     }]);
-
-
-angular.module('myApp.scroll', []).directive('whenScrolled', function() {
-    return function(scope, elm, attr) {
-        var raw = elm[0];
-        elm.bind('scroll', function() {
-            if (raw.scrollTop + raw.offsetHeight >= raw.scrollHeight) {
-                scope.$apply(attr.whenScrolled);
-            }
-        });
-    };
-});
