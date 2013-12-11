@@ -101,6 +101,7 @@ class Post(ndb.Model):
         config = Config.get_singleton()
         if summary_only:
             replaced = re.sub(r'\!\[.*?]\([^)]*\)', '', self.content)
+            replaced = re.sub(r'\[(.*?)\]\(.*?\)', r'\1', replaced)
             replaced = re.sub(r'[ \n]+', ' ', replaced)
             replaced = re.sub(r'[ \n]+', ' ', replaced)
             replaced = re.sub(r'<iframe.*?</iframe>', '', replaced)
