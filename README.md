@@ -39,8 +39,8 @@ Screenshot
 ----------
 
  * Admin page.
-  * <img src="https://lh5.googleusercontent.com/-uFZfQCbyJKw/UqK_PPBJydI/AAAAAAAC4Ts/Rr4nPtUB7mU/w2056-h1460-no/blogae_admin.png" width="400">
+  * <img src="https://lh5.googleusercontent.com/-uFZfQCbyJKw/UqK_PPBJydI/AAAAAAAC4Ts/Rr4nPtUB7mU/w2056-h1460-no/blogae_admin.png" width="400" style="border: 1px solid #999;">
  * List view.
-  * <img src="https://lh3.googleusercontent.com/-eI4kIOtsHRs/UqK_QPBvZvI/AAAAAAAC4T0/RkKi7X3ynfk/w1800-h1626-no/blogae_list.png" width="400">
+  * <img src="https://lh3.googleusercontent.com/-eI4kIOtsHRs/UqK_QPBvZvI/AAAAAAAC4T0/RkKi7X3ynfk/w1800-h1626-no/blogae_list.png" width="400" style="border: 1px solid #999;">
  * Post view.
-  * <img src="https://lh3.googleusercontent.com/-q4JoUJ6EohA/UqK_PGYig8I/AAAAAAAC4To/Ve0Eet7BD3M/w1528-h1626-no/blogae_post.png" width="400">
+  * <img src="https://lh3.googleusercontent.com/-q4JoUJ6EohA/UqK_PGYig8I/AAAAAAAC4To/Ve0Eet7BD3M/w1528-h1626-no/blogae_post.png" width="400" style="border: 1px solid #999;">
