@@ -7,7 +7,7 @@ angular.module('blogae.config', [
 
 angular.module('blogae.config.controllers', []).controller('ConfigCtrl', [
     '$scope', '$http',
-    function($scope, $http,) {
+    function($scope, $http) {
 	$scope.config = {};
 	$scope.saving = true;
 
