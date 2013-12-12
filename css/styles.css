@@ -177,3 +177,10 @@ blockquote {
 #post-head {
     padding: 60px 0;
 }
+
+.author-name {
+}
+
+.author-bio {
+    font-size: 15px;
+}
