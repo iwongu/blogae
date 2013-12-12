@@ -188,6 +188,7 @@ class PostBase(MainBase):
         template_values = {
             'config': config,
             'post': post,
+            'author': data.Author.get_author(post.author),
             'prev_post': prevpost,
             'next_post': nextpost,
         }

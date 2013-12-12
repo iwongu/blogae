@@ -12,10 +12,18 @@ import webapp2
 
 
 class ApiBase(webapp2.RequestHandler):
-    def check_author(self, post):
+    def get_post_author(self, post):
         user = users.get_current_user()
         if not (post.author == user or users.is_current_user_admin()):
             self.abort(403)
+        return user
+
+    def get_current_author(self):
+        config = data.Config.get_singleton()
+        user = users.get_current_user()
+        if not (user in config.authors or users.is_current_user_admin()):
+            self.abort(403)
+        return user
 
 
 class GetPosts(ApiBase):
@@ -63,7 +71,7 @@ class SavePost(ApiBase):
             post.permalink = self.sanitize_permalink(title)
         else:
             post = data.Post.get_by_id(int(postid))
-            self.check_author(post);
+            self.get_post_author(post);
             if len(permalink) > 0:
                 post.permalink = self.sanitize_permalink(permalink)
             else:
@@ -109,7 +117,7 @@ class DeletePost(ApiBase):
     def post(self):
         postid = self.request.get('postid')
         post = data.Post.get_by_id(int(postid))
-        self.check_author(post);
+        self.get_post_author(post);
         post.key.delete()
         self.response.write(json.dumps({'postid': postid}))
         mcache.dirty_all()
@@ -145,6 +153,23 @@ class SaveConfig(ApiBase):
         config.comment_script = self.request.get('comment_script')
         config.put()
         self.response.write(json.dumps({'config': config.serialize()}))
+        mcache.dirty_all()
+
+
+class GetAuthor(ApiBase):
+    def post(self):
+        user = self.get_current_author()
+        author = data.Author.get_author(user);
+        self.response.write(json.dumps({'author': author.serialize()}))
+
+
+class SaveAuthor(ApiBase):
+    def post(self):
+        user = self.get_current_author()
+        author = data.Author.get_author(user);
+        author.bio = self.request.get('bio')
+        author.put()
+        self.response.write(json.dumps({'author': author.serialize()}))
         mcache.dirty_all()
 
 
@@ -198,6 +223,8 @@ application = webapp2.WSGIApplication([
         ('/_/delete/', DeletePost),
         ('/_/get_config/', GetConfig),
         ('/_/save_config/', SaveConfig),
+        ('/_/get_author/', GetAuthor),
+        ('/_/save_author/', SaveAuthor),
         ('/_/get_albums/', GetAlbums),
         ('/_/get_photos/', GetPhotos),
     ], debug=True)

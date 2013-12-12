@@ -30,6 +30,11 @@ handlers:
   login: admin
   secure: always
 
+- url: /admin/author
+  script: admin.admin.application
+  login: required
+  secure: always
+
 - url: /admin/picker
   script: admin.admin.application
   login: required
@@ -37,11 +42,6 @@ handlers:
 
 - url: /admin(/js)?
   script: admin.admin.application
-  login: required
-  secure: always
-
-- url: /_/get_config/
-  script: admin.apis.application
   login: required
   secure: always
 

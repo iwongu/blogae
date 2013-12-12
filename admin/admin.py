@@ -54,6 +54,26 @@ class AdminConfigPage(AdminBase):
         self.response.write(self.render('config.html', template_values))
 
 
+class AdminAuthorPage(AdminBase):
+    # todo(iwongu): share this method with apis.py.
+    def get_current_author(self):
+        config = data.Config.get_singleton()
+        user = users.get_current_user()
+        if not (user in config.authors or users.is_current_user_admin()):
+            self.abort(403)
+        return user
+
+    def get(self):
+        config = data.Config.get_singleton()
+        user = self.get_current_author()
+        author = data.Author.get_author(user);
+        template_values = {
+            'user': user,
+            'author': author,
+            }
+        self.response.write(self.render('author.html', template_values))
+
+
 class AdminJsPage(AdminBase):
     def get(self):
         config = data.Config.get_singleton()
@@ -73,6 +93,7 @@ class AdminPickerPage(AdminBase):
 
 application = webapp2.WSGIApplication([
         ('/admin/config', AdminConfigPage),
+        ('/admin/author', AdminAuthorPage),
         ('/admin/picker', AdminPickerPage),
         ('/admin/js', AdminJsPage),
         ('/admin', AdminPage),

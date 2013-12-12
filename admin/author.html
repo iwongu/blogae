@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html ng-app="blogae.author">
+  <head>
+    <script type="text/javascript" src="/js/jquery-2.0.3.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular.min.js"></script>
+    <script src="/js/author.js"></script>
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700">
+    <link rel="stylesheet" type="text/css" href="/css/config.css">
+  </head>
+  <body ng-controller="AuthorCtrl">
+    <div class="main">
+      <div class="config-name">Bio</div>
+      <textarea ng-model="author.bio"></textarea>
+
+      <button class="button" ng-disabled="saving" ng-click="save_config()">Save</button>
+    </div>
+  </body>
+</html>
+{% endautoescape %}

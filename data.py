@@ -31,13 +31,14 @@ class Config(ndb.Model):
         if len(configs) > 0:
             return configs[0]
 
-        config_data = cls()
-        config_data.blog_title = 'Your blog title'
-        config_data.blog_page_size = 5
-        config_data.blog_summary_size = 300
-        config_data.put()
-        return config_data;
+        data = cls()
+        data.blog_title = 'Your blog title'
+        data.blog_page_size = 5
+        data.blog_summary_size = 300
+        data.put()
+        return data;
 
+    # todo(iwongu): change the method name to can_edit.
     def is_author(self, user):
         return len(self.authors) == 0 or user in self.authors or \
             users.is_current_user_admin()
@@ -58,6 +59,31 @@ class Config(ndb.Model):
             'blog_script': self.blog_script,
             'post_script': self.post_script,
             'comment_script': self.comment_script
+            }
+
+
+class Author(ndb.Model):
+    author = ndb.UserProperty()
+    bio = ndb.TextProperty()
+
+    @classmethod
+    def get_author(cls, author):
+        authors = cls.query(Author.author == author).fetch()
+        if len(authors) > 0:
+            return authors[0]
+
+        data = cls()
+        data.author = author
+        data.put()
+        return data
+
+    def serialize(self):
+        return {
+            'author': {
+                'email': self.author.email(),
+                'nickname': self.author.nickname()
+                },
+            'bio': self.bio,
             }
 
 
