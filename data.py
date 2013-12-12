@@ -17,6 +17,7 @@ class Config(ndb.Model):
     blog_favicon = ndb.StringProperty()
     blog_page_size = ndb.IntegerProperty()
     blog_summary_size = ndb.IntegerProperty()
+    blog_custom_css = ndb.TextProperty()
     authors = ndb.StringProperty(repeated=True)
     client_id = ndb.StringProperty()
     admin_script = ndb.TextProperty()
@@ -38,7 +39,8 @@ class Config(ndb.Model):
         return config_data;
 
     def is_author(self, user):
-        return len(self.authors) == 0 or user in self.authors or users.is_current_user_admin()
+        return len(self.authors) == 0 or user in self.authors or \
+            users.is_current_user_admin()
 
     def serialize(self):
         return {
@@ -49,6 +51,7 @@ class Config(ndb.Model):
             'blog_favicon': self.blog_favicon,
             'blog_page_size': self.blog_page_size,
             'blog_summary_size': self.blog_summary_size,
+            'blog_custom_css': self.blog_custom_css,
             'authors': ','.join(self.authors),
             'client_id': self.client_id,
             'admin_script': self.admin_script,

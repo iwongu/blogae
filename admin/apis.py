@@ -136,6 +136,7 @@ class SaveConfig(ApiBase):
         config.blog_favicon = self.request.get('blog_favicon')
         config.blog_page_size = int(self.request.get('blog_page_size'))
         config.blog_summary_size = int(self.request.get('blog_summary_size'))
+        config.blog_custom_css = self.request.get('blog_custom_css')
         config.authors = authors
         config.client_id = self.request.get('client_id')
         config.admin_script = self.request.get('admin_script')
