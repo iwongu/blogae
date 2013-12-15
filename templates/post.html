@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% block blog_title %}
+{{post.title}} | {{config.blog_title}}
+{% endblock %}
+
 {% block scripts %}{{config.post_script|safe}}{% endblock %}
 
 {% block comment_script %}{{config.comment_script|safe}}{% endblock %}
