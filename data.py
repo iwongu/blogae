@@ -153,7 +153,7 @@ class Post(ndb.Model):
             self.date_published_converted = '%04d-%02d-%02dT%02d:%02d:%02dZ' % (
                 tt.tm_year, tt.tm_mon, tt.tm_mday, tt.tm_hour, tt.tm_min, tt.tm_sec)
         else:
-            self.date_published_converted = self.date_published.strftime('%d %b %Y')
+            self.date_published_converted = self.date_published.strftime('%d %B %Y')
 
         self.permalink_converted = '/%d/%02d/%s' % (
             self.date_published.year, self.date_published.month, self.permalink)

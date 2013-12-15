@@ -65,13 +65,13 @@ blockquote {
 
 .content {
     margin: 1rem auto 4rem;
-    width: 80%;
+    width: 90%;
     max-width: 700px;
 }
 
 .blog-title {
     font-weight: 700;
-    font-size: 60px;
+    font-size: 3em;
 }
 
 .post {
@@ -80,26 +80,28 @@ blockquote {
     padding-top: 1rem;
 }
 
+.post header {
+    margin-bottom: 40px;
+}
+
 .post-title {
     font-weight: 700;
-    font-size: 40px;
+    font-size: 2em;
     margin: 10px 0;
+    text-transform: uppercase;
 }
 
 .post-metadata {
     font-size: 0.7em;
-    color: #9EABB3
+    text-transform: uppercase;
 }
-.post-metadata a {
-    color: #9EABB3
-}
-.post-metadata a:hover {
-    color: #57A3E8;
+.post-metadata.tags {
+    font-weight: 700;
 }
 
 .post-content {
     font-size: 0.9em;
-    line-height: 1.6em;
+    line-height: 1.8em;
 }
 
 .post-content img {
@@ -131,7 +133,6 @@ blockquote {
 }
 
 .nav {
-    font-size: 0.7em;
 }
 .nav_prev {
     display: inline-block;
@@ -182,5 +183,5 @@ blockquote {
 }
 
 .author-bio {
-    font-size: 15px;
+    font-size: 1em;
 }

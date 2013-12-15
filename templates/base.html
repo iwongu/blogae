@@ -24,25 +24,26 @@
       {% block articles %}
       {% block article %}
       <article class="post">
-	{% block post_header %}
-	<header>
-	  <div class="post-metadata">
-	    {{post.date_published_converted}}
-	    {% for tag in post.tags %}
-	      {% if loop.first %} on {% endif %}
+        {% block post_header %}
+        <header>
+          <div class="post-metadata tags">
+            {% for tag in post.tags %}
               <a href="/tag/{{tag}}/">{{tag}}</a>
-	    {% endfor %}
-	  </div>
-	  {% block post_title %}
-	  <h1 class="post-title">{{post.title}}</h1>
-	  {% endblock %}
-	</header>
-	{% endblock %}
-	{% block post_content %}
-	<section class="post-content">{{post.content_converted}}</section>
-	{% endblock %}
-	{% block post_footer %}
-	{% endblock %}
+            {% endfor %}
+          </div>
+          {% block post_title %}
+          <h1 class="post-title">{{post.title}}</h1>
+          {% endblock %}
+          <div class="post-metadata published">
+            {{post.date_published_converted}}
+          </div>
+        </header>
+        {% endblock %}
+        {% block post_content %}
+        <section class="post-content">{{post.content_converted}}</section>
+        {% endblock %}
+        {% block post_footer %}
+        {% endblock %}
       </article>
       {% endblock %}
       {% block comment_script %}{% endblock %}
