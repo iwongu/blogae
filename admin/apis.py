@@ -188,7 +188,8 @@ class GetAlbums(ApiBase):
         response = urlfetch.fetch(
             endpoint,
             method = urlfetch.GET,
-            headers = headers)
+            headers = headers,
+            deadline = 30)
         if response.status_code != 200:
             logging.error(str(response.status_code) + ': ' + response.content)
         self.response.write(json.dumps({
@@ -209,7 +210,8 @@ class GetPhotos(ApiBase):
         response = urlfetch.fetch(
             endpoint,
             method = urlfetch.GET,
-            headers = headers)
+            headers = headers,
+            deadline = 30)
         self.response.write(json.dumps({
                     'status_code': response.status_code,
                     'content': response.content
