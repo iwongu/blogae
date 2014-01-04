@@ -26,6 +26,10 @@ angular.module('blogae.picker.controllers', ['blogae.topbar']).
     $scope.selected_photos = [];
     $scope.selected_photo_ids = [];
 
+    $scope.zoom_timer = null;
+    $scope.is_zooming = false;
+    $scope.zoomed_photo = null;
+
     $scope.cancel = function() {
       $window.opener.document.getElementById('selected_photos').value = '';
       $window.close();
@@ -40,6 +44,25 @@ angular.module('blogae.picker.controllers', ['blogae.topbar']).
       $window.opener.document.getElementById('selected_photos').value =
         photos.substring(1, photos.length);
       $window.close();
+    }
+
+    $scope.start_zoom_timer = function(photo) {
+      $window.clearTimeout($scope.zoom_timer);
+      $scope.zoom_timer = $window.setTimeout(function() {
+        $scope.zoom_timer = null;
+        $scope.zoomed_photo = photo;
+        $scope.is_zooming = true;
+        $scope.$apply();
+      }, 1000);
+    }
+
+    $scope.stop_zoom_timer = function() {
+      $window.clearTimeout($scope.zoom_timer);
+      $scope.zoom_timer = null;
+    }
+
+    $scope.stop_zoom = function() {
+      $scope.is_zooming = false;
     }
 
     $scope.select_photo = function(photo) {

@@ -2,10 +2,8 @@
 {% autoescape true %}
 <html ng-app="blogae.picker">
   <head>
-    <script type="text/javascript" src="/js/jquery-2.0.3.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular-resource.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular-route.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular.min.js"></script>
     <script src="/js/picker.js"></script>
     <script src="/js/scroll.js"></script>
     <script src="/js/topbar.js"></script>
@@ -52,15 +50,23 @@
       <div class="container">
 	<div class="photo-list" when-scrolled="load_more_photos()">
 	  <span ng-repeat="photo in photos" ng-click="select_photo(photo)" class="photo"
-		    ng-class="{selected: photo.selected}">
+		ng-class="{selected: photo.selected}">
 	    <div class="img-helper"></div>
-	    <img ng-src="{{photo.thumbnail_medium}}">
+	    <img ng-src="{{photo.thumbnail_medium}}"
+                 ng-mouseenter="start_zoom_timer(photo)"
+                 ng-mouseleave="stop_zoom_timer()">
 	  </span>
 	</div>
       </div>
     </main>
-    {% endraw %}
     <aside class="topbar hide" id="topbar"></aside>
+    <aside class="zoom-panel" ng-show="is_zooming" ng-click="stop_zoom()">
+      <div class="zoom-background"></div>
+      <div class="zoom-photo-panel">
+        <img ng-src="{{zoomed_photo.src}}">
+      </div>
+    </aside>
+    {% endraw %}
   </body>
 </html>
 {% endautoescape %}

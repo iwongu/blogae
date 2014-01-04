@@ -175,3 +175,30 @@ body {
     background-color: cornflowerblue;
 }
 
+.zoom-panel {
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    overflow: auto;
+}
+.zoom-background {
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    opacity: .9;
+    background-color: #333;
+}
+.zoom-photo-panel {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+.zoom-photo-panel img {
+    display: block;
+    margin: auto;
+    width: 90%;
+}
