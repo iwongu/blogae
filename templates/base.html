@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="/css/styles.css">
     <link rel="alternate" type="application/atom+xml" title="{{config.blog_title}} - Atom" href="{{config.blog_url}}/feed/">
     {% if config.blog_favicon %}<link rel="icon" href="{{config.blog_favicon}}">{% endif %}
-    <script type="text/javascript" src="/js/jquery-2.0.3.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
     <script type="text/javascript" src="/js/main.js"></script>
     {% block scripts %}{% endblock %}
     <style>{{config.blog_custom_css|safe}}</style>
@@ -26,11 +26,13 @@
       <article class="post">
         {% block post_header %}
         <header>
+          {% block tags %}
           <div class="post-metadata tags">
             {% for tag in post.tags %}
               <a href="/tag/{{tag}}/">{{tag}}</a>
             {% endfor %}
           </div>
+          {% endblock %}
           {% block post_title %}
           <h1 class="post-title">{{post.title}}</h1>
           {% endblock %}

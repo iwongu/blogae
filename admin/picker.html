@@ -49,12 +49,11 @@
       </header>
       <div class="container">
 	<div class="photo-list" when-scrolled="load_more_photos()">
-	  <span ng-repeat="photo in photos" ng-click="select_photo(photo)" class="photo"
+	  <span ng-repeat="photo in photos" class="photo"
 		ng-class="{selected: photo.selected}">
 	    <div class="img-helper"></div>
-	    <img ng-src="{{photo.thumbnail_medium}}"
-                 ng-mouseenter="start_zoom_timer(photo)"
-                 ng-mouseleave="stop_zoom_timer()">
+	    <img ng-src="{{photo.thumbnail_medium}}" ng-click="select_photo(photo)">
+            <a href="javascript:;" ng-click="zoom_photo(photo)">zoom</a>
 	  </span>
 	</div>
       </div>
