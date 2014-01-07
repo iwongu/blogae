@@ -157,9 +157,14 @@ class Post(ndb.Model):
 
         self.permalink_converted = '/%d/%02d/%s' % (
             self.date_published.year, self.date_published.month, self.permalink)
-        first_photo_group = re.search(r'\!\[.*?]\(([^)]*)\)', self.content)
-        if first_photo_group:
-            self.main_photo_converted = first_photo_group.groups()[0]
+        first_photo = re.search(r'\!\[.*?]\(([^)]*)\)', self.content)
+        if first_photo:
+            self.main_photo_converted = first_photo.groups()[0]
+        else:
+            first_youtube = re.search(r'src="//www.youtube.com/embed/(.*?)"', self.content)
+            if first_youtube:
+                self.main_photo_converted = \
+                    '//img.youtube.com/vi/' + first_youtube.groups()[0] + '/0.jpg'
 
         return self
 
