@@ -112,23 +112,11 @@ blockquote {
 
 .post-content img.post-thumbnail {
     max-width: 40%;
+    max-height: 280px;
     float: right;
     margin: 5px 0 0 20px;
-
-    -webkit-filter: grayscale(70%);
-    -moz-filter: grayscale(70%);
-    -o-filter: grayscale(70%);
-    -ms-filter: grayscale(70%);
-    filter: grayscale(70%);
 }
 
-.post-content:hover img.post-thumbnail {
-    -webkit-filter: grayscale(30%);
-    -moz-filter: grayscale(30%);
-    -o-filter: grayscale(30%);
-    -ms-filter: grayscale(30%);
-    filter: grayscale(30%);
-}
 .post:hover .post-title a {
     color: #57A3E8;
 }
