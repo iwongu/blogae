@@ -2,25 +2,23 @@
 
 
 angular.module('blogae.topbar', []).factory('topbar', function() {
+  var elem = $('#topbar');
   return {
     show_message: function(msg) {
-      var el = $('#topbar');
-      el.text(msg);
-      el.removeClass('hide');
-      el.removeClass('error');
+      elem.text(msg);
+      elem.removeClass('hide');
+      elem.removeClass('error');
     },
 
     show_error: function(msg) {
-      var el = $('#topbar');
-      el.text(msg);
-      el.removeClass('hide');
-      el.addClass('error');
+      elem.text(msg);
+      elem.removeClass('hide');
+      elem.addClass('error');
     },
 
     hide_message: function() {
-      var el = $('#topbar');
-      el.text('');
-      el.addClass('hide');
+      elem.text('');
+      elem.addClass('hide');
     }
   };
 });

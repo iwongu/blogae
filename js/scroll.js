@@ -2,11 +2,11 @@
 
 
 angular.module('blogae.scroll', []).directive('whenScrolled', function() {
-  return function(scope, elm, attr) {
-    var raw = elm[0];
-    elm.bind('scroll', function() {
+  return function(scope, elem, attrs) {
+    var raw = elem[0];
+    elem.bind('scroll', function() {
       if (raw.scrollTop + raw.offsetHeight >= raw.scrollHeight) {
-        scope.$apply(attr.whenScrolled);
+        scope.$apply(attrs.whenScrolled);
       }
     });
   };
