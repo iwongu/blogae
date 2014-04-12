@@ -7,69 +7,69 @@ var adminApp = angular.module('blogae.admin', ['blogae.topbar', 'blogae.scroll']
 adminApp.controller('AdminCtrl', function($scope, $http, $window, topbar) {
   var admin = this;
 
-  admin.title = '';
-  admin.content = '';
-  admin.content_html = '';
-  admin.tags = '';
-  admin.permalink = '';
-  admin.date_published = '';
+  this.title = '';
+  this.content = '';
+  this.content_html = '';
+  this.tags = '';
+  this.permalink = '';
+  this.date_published = '';
 
-  admin.posts = [];
-  admin.next_post_id = '';
+  this.posts = [];
+  this.next_post_id = '';
 
-  admin.selected_post = null;
-  admin.edited = false;
+  this.selected_post = null;
+  this.edited = false;
 
-  admin.help_showing = false;
+  this.help_showing = false;
 
-  admin.saving = false;
-  admin.metadata_editing = 'tags'; // or published or permalink.
-  admin.blogae_scripts = $blogae_scripts;
+  this.saving = false;
+  this.metadata_editing = 'tags'; // or published or permalink.
+  this.blogae_scripts = $blogae_scripts;
 
 
-  admin.edit = function(postid) {
-    angular.forEach(admin.posts, function(post) {
+  this.edit = function(postid) {
+    angular.forEach(this.posts, angular.bind(this, function(post) {
       if (post.id == postid) {
-        admin.fill_post_form(post);
+        this.fill_post_form(post);
       }
-    });
+    }));
   }
 
   // fills the post form. will lose the current post if any.
-  admin.fill_post_form = function(post) {
-    if (admin.has_changed() &&
+  this.fill_post_form = function(post) {
+    if (this.has_changed() &&
 	!$window.confirm('You will lose you data. Are you sure?')) {
       return;
     }
 
-    admin.selected_post = post;
-    admin.title = post.title;
-    admin.content = post.content;
-    admin.content_html = post.content_html;
-    admin.tags = post.tags;
-    admin.permalink = post.permalink;
-    admin.date_published = post.date_published;
+    this.selected_post = post;
+    this.title = post.title;
+    this.content = post.content;
+    this.content_html = post.content_html;
+    this.tags = post.tags;
+    this.permalink = post.permalink;
+    this.date_published = post.date_published;
 
-    admin.edited = false;
-    admin.content_changed();
+    this.edited = false;
+    this.content_changed();
   }
 
-  admin.has_changed = function() {
-    var is_empty = !(admin.title || admin.content || admin.selected_post);
-    return !is_empty && admin.edited;
+  this.has_changed = function() {
+    var is_empty = !(this.title || this.content || this.selected_post);
+    return !is_empty && this.edited;
   }
 
-  admin.view = function(postid) {
-    angular.forEach(admin.posts, function(post) {
+  this.view = function(postid) {
+    angular.forEach(this.posts, angular.bind(this, function(post) {
       if (post.id == postid) {
 	var permalink = post.permalink_full;
 	$window.open(permalink, 'view');
       }
-    });
+    }));
   }
 
-  admin.content_changed = function() {
-    var html = markdown.toHTML(admin.content);
+  this.content_changed = function() {
+    var html = markdown.toHTML(this.content);
     if (/iframe.*youtube.com.*\/iframe/.exec(html)) {
       // post-process to support youtube iframes.
       html = html.replace(/&lt;iframe /g, '<iframe ');
@@ -82,147 +82,147 @@ adminApp.controller('AdminCtrl', function($scope, $http, $window, topbar) {
     $('#post-preview').html(html);
   }
 
-  admin.toggle_metadata_editing = function() {
-    if (admin.metadata_editing == 'tags') {
-      admin.metadata_editing = 'published';
-    } else if (admin.metadata_editing == 'published') {
-      admin.metadata_editing = 'permalink';
+  this.toggle_metadata_editing = function() {
+    if (this.metadata_editing == 'tags') {
+      this.metadata_editing = 'published';
+    } else if (this.metadata_editing == 'published') {
+      this.metadata_editing = 'permalink';
     } else {
-      admin.metadata_editing = 'tags';
+      this.metadata_editing = 'tags';
     }
   }
 
-  admin.check_date_format = function() {
+  this.check_date_format = function() {
     var format = /\d{1,2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{4} \d{1,2}:\d{1,2}/;
-    return admin.date_published.length == 0 || format.test(admin.date_published);
+    return this.date_published.length == 0 || format.test(this.date_published);
   }
 
-  admin.delete_post = function() {
+  this.delete_post = function() {
     if (!$window.confirm('Are you sure you delete the post?')) {
       return;
     }
 
-    var params = $.param({'postid': admin.selected_post.id});
+    var params = $.param({'postid': this.selected_post.id});
     topbar.show_message('deleting...');
-    $http.post('/_/delete/', params).success(function(data) {
+    $http.post('/_/delete/', params).success(angular.bind(this, function(data) {
       var i = 0;
-      for (; i < admin.posts.length; i++) {
-	if (admin.posts[i].id == data.postid) {
+      for (; i < this.posts.length; i++) {
+	if (this.posts[i].id == data.postid) {
 	  break;
 	}
       }
-      admin.posts.splice(i, 1);
-      admin.prepare_new_post();
+      this.posts.splice(i, 1);
+      this.prepare_new_post();
       topbar.hide_message();
-    }).error(function() {
+    })).error(angular.bind(this, function() {
       // todo(iwongu): show better error message.
       topbar.show_error('failed to delete...');
-    });
+    }));
   }
 
-  admin.publish = function() {
-    admin.save_post('/_/publish/', false);
+  this.publish = function() {
+    this.save_post('/_/publish/', false);
   }
 
-  admin.save = function() {
-    admin.save_post('/_/save/', true);
+  this.save = function() {
+    this.save_post('/_/save/', true);
   }
 
-  admin.save_post = function(api_path, is_draft) {
-    if (!admin.check_date_format()) {
+  this.save_post = function(api_path, is_draft) {
+    if (!this.check_date_format()) {
       $window.alert('The published date format is wrong.');
       return;
     }
-    admin.saving = true;
-    var params = admin.prepare_save();
+    this.saving = true;
+    var params = this.prepare_save();
     topbar.show_message('saving...');
-    $http.post(api_path, params).success(function(post) {
-      admin.saving = false;
-      admin.edited = false;
-      if (!admin.selected_post) { // new post.
-	admin.selected_post = post;
-	admin.posts.unshift(post);
+    $http.post(api_path, params).success(angular.bind(this, function(post) {
+      this.saving = false;
+      this.edited = false;
+      if (!this.selected_post) { // new post.
+	this.selected_post = post;
+	this.posts.unshift(post);
       } else {
-	angular.forEach(admin.posts, function(current, i) {
-	  if (current.id == admin.selected_post.id) {
-	    admin.posts[i] = post;
+	angular.forEach(this.posts, angular.bind(this, function(current, i) {
+	  if (current.id == this.selected_post.id) {
+	    this.posts[i] = post;
 	  }
-	});
+	}));
       }
-      admin.fill_post_form(post);
+      this.fill_post_form(post);
       topbar.hide_message();
-    }).error(function() {
-      admin.saving = false;
+    })).error(angular.bind(this, function() {
+      this.saving = false;
       // todo(iwongu): show better error message.
       topbar.show_error('failed to save...');
-    });
+    }));
   }
 
-  admin.new_post = function() {
-    if (admin.has_changed() &&
+  this.new_post = function() {
+    if (this.has_changed() &&
 	!$window.confirm('You will lose you data. Are you sure?')) {
       return;
     }
-    admin.prepare_new_post();
+    this.prepare_new_post();
   }
 
-  admin.prepare_new_post = function() {
-    admin.title = '';
-    admin.content = '';
-    admin.content_html = '';
-    admin.tags = '';
-    admin.permalink = '';
-    admin.date_published = '';
+  this.prepare_new_post = function() {
+    this.title = '';
+    this.content = '';
+    this.content_html = '';
+    this.tags = '';
+    this.permalink = '';
+    this.date_published = '';
 
-    admin.selected_post = null;
-    admin.edited = false;
-    admin.content_changed();
+    this.selected_post = null;
+    this.edited = false;
+    this.content_changed();
   }
 
-  admin.prepare_save = function() {
+  this.prepare_save = function() {
     // save changes locally.
-    if (admin.selected_post) {
-      admin.selected_post.title = admin.title;
-      admin.selected_post.content = admin.content;
-      admin.selected_post.tags = admin.tags;
-      admin.selected_post.permalink = admin.permalink;
-      admin.selected_post.date_published = admin.date_published;
+    if (this.selected_post) {
+      this.selected_post.title = this.title;
+      this.selected_post.content = this.content;
+      this.selected_post.tags = this.tags;
+      this.selected_post.permalink = this.permalink;
+      this.selected_post.date_published = this.date_published;
     }
 
     return $.param({
-      'postid': admin.selected_post ? admin.selected_post.id : '',
-      'title': admin.title,
-      'content': admin.content,
-      'tags': admin.tags,
-      'permalink': admin.selected_post ? admin.selected_post.permalink : '',
-      'date_published': admin.selected_post ?
-        admin.selected_post.date_published : '',
+      'postid': this.selected_post ? this.selected_post.id : '',
+      'title': this.title,
+      'content': this.content,
+      'tags': this.tags,
+      'permalink': this.selected_post ? this.selected_post.permalink : '',
+      'date_published': this.selected_post ?
+        this.selected_post.date_published : '',
     });
   }
 
-  admin.load_more = function() {
-    if (admin.next_post_id) {
-      admin.fetch_next(admin.next_post_id);
+  this.load_more = function() {
+    if (this.next_post_id) {
+      this.fetch_next(this.next_post_id);
     }
   };
 
-  admin.call_blogae_script = function(num) {
-    admin.content = admin.blogae_scripts[num](admin.content);
-    admin.edited = true;
-    admin.content_changed();
+  this.call_blogae_script = function(num) {
+    this.content = this.blogae_scripts[num](this.content);
+    this.edited = true;
+    this.content_changed();
   }
 
-  admin.open_photo_picker = function() {
+  this.open_photo_picker = function() {
     var picker = $window.open('/admin/picker', 'picker');
-    var timer = $window.setInterval(function() {
+    var timer = $window.setInterval(angular.bind(this, function() {
       if (picker.closed !== false) {
 	$window.clearInterval(timer);
-	admin.photos_selected();
+	this.photos_selected();
       }
-    }, 200);
+    }), 200);
   }
 
-  admin.photos_selected = function() {
+  this.photos_selected = function() {
     var value = $('#selected_photos').val();
     if (!value) {
       return;
@@ -230,31 +230,31 @@ adminApp.controller('AdminCtrl', function($scope, $http, $window, topbar) {
     var photos = value.split(' ');
     var content_el = $('#content').get(0);
     var caret = content_el.selectionStart;
-    var new_content = admin.content.slice(0, caret);
+    var new_content = this.content.slice(0, caret);
     new_content += '\n';
     for (var i = 0; i < photos.length; i++) {
       new_content += '\n![](' + photos[i] + ')\n';
     }
     new_content += '\n';
-    new_content += admin.content.slice(caret, admin.content.length);
-    admin.content = new_content;
-    admin.edited = true;
+    new_content += this.content.slice(caret, this.content.length);
+    this.content = new_content;
+    this.edited = true;
 
-    admin.$apply();
-    admin.content_changed();
+    this.$apply();
+    this.content_changed();
   }
 
-  admin.fetch_next = function(next_post_id) {
+  this.fetch_next = function(next_post_id) {
     var params = $.param({'next_post_id': next_post_id});
     topbar.show_message('loading...');
-    $http.post('/_/get_posts/', params).success(function(data) {
-      admin.posts = admin.posts.concat(data.posts);
-      admin.next_post_id = data.next_post_id;
+    $http.post('/_/get_posts/', params).success(angular.bind(this, function(data) {
+      this.posts = this.posts.concat(data.posts);
+      this.next_post_id = data.next_post_id;
       topbar.hide_message();
-    }).error(function() {
+    })).error(angular.bind(this, function() {
       // todo(iwongu): show beter error message.
       topbar.show_error('failed to fetch more posts...');
-    });
+    }));
   }
 
   // set default header.
@@ -262,5 +262,5 @@ adminApp.controller('AdminCtrl', function($scope, $http, $window, topbar) {
     "application/x-www-form-urlencoded";
 
   // fetch the posts when app is started.
-  admin.fetch_next('')
+  this.fetch_next('')
 });
