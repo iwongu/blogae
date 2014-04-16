@@ -8,7 +8,6 @@ import collections
 import data
 import datetime
 import jinja2
-import logging
 import markdown2
 import mcache
 import re
@@ -221,12 +220,17 @@ class FeedPage(MainBase):
             return
 
         config = data.Config.get_singleton()
-
+        authors = {}
+        # todo(iwongu): fix the multiple author entries for a same user.
+        for a in data.Author.query().fetch():
+            if a.author.email() not in authors:
+                authors[a.author.email()] = a.nickname
         posts = self.base_query().order(-data.Post.date_published).fetch(size)
         for post in posts:
             post.add_converted_attributes(False, True)
         template_values = {
             'config': config,
+            'authors': authors,
             'posts': posts,
         }
         response = self.render('atom.xml', template_values)
