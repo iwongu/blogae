@@ -168,6 +168,7 @@ class SaveAuthor(ApiBase):
         user = self.get_current_author()
         author = data.Author.get_author(user);
         author.bio = self.request.get('bio')
+        author.nickname = self.request.get('nickname')
         author.put()
         self.response.write(json.dumps({'author': author.serialize()}))
         mcache.dirty_all()

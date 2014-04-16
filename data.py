@@ -65,6 +65,7 @@ class Config(ndb.Model):
 class Author(ndb.Model):
     author = ndb.UserProperty()
     bio = ndb.TextProperty()
+    nickname = ndb.StringProperty()
 
     @classmethod
     def get_author(cls, author):
@@ -84,6 +85,7 @@ class Author(ndb.Model):
                 'nickname': self.author.nickname()
                 },
             'bio': self.bio,
+            'nickname': self.nickname
             }
 
 
