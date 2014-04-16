@@ -85,7 +85,7 @@ class Author(ndb.Model):
                 'nickname': self.author.nickname()
                 },
             'bio': self.bio,
-            'nickname': self.nickname
+            'nickname': self.nickname if self.nickname is not None else self.author.nickname()
             }
 
 

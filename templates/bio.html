@@ -1,5 +1,11 @@
 <div class="bio">
-  <div class="author-name">{{author.nickname}}</div>
+  <div class="author-name">
+    {% if author.nickname %}
+    {{author.nickname}}
+    {% else %}
+    {{author.author.nickname()}}
+    {% endif %}
+  </div>
   {% if author.bio %}
   <div class="author-bio">{{author.bio|safe}}</div>
   {% endif %}
