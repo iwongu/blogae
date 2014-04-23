@@ -240,7 +240,7 @@ adminApp.controller('AdminCtrl', function($scope, $http, $window, topbar) {
     this.content = new_content;
     this.edited = true;
 
-    this.$apply();
+    $scope.$apply();
     this.content_changed();
   }
 
