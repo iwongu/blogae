@@ -148,7 +148,9 @@ class Post(ndb.Model):
                 summary += '...'
             self.content_converted = summary
         else:
-            self.content_converted = jinja2.Markup(markdown2.markdown(self.content))
+            self.content_converted = markdown2.markdown(self.content)
+            self.content_converted = re.sub(r'(<img.*src="(.*?)".*?>)', r'<a href="\2">\1</a>', self.content_converted, flags=re.M)
+            self.content_converted = jinja2.Markup(self.content_converted)
 
         if for_atom:
             tt = self.date_published.utctimetuple()
