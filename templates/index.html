@@ -16,7 +16,7 @@
 {% block post_content %}
 <section class="post-content">
   {% if post.main_photo_converted %}
-  <img class="post-thumbnail" src="{{post.main_photo_converted}}">
+  <a href="{{post.permalink_converted}}"><img class="post-thumbnail" src="{{post.main_photo_converted}}"></a>
   {% endif %}
   {{post.content_converted}}
   <div style="clear: both;"></div>
