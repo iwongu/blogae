@@ -236,7 +236,8 @@ class FeedPage(MainBase):
         response = self.render('atom.xml', template_values)
         self.response.headers['Content-Type'] = 'application/xml'
         self.response.write(response)
-        self.set_mcache(response, sizestr)
+        if size <= 10:
+            self.set_mcache(response, sizestr)
 
 
 

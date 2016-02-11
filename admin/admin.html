@@ -9,6 +9,12 @@
     <script src="/js/topbar.js"></script>
     <script src="/js/markdown.min.js"></script>
     <script src="/admin/js"></script>
+    <script>
+      var developerKey = '{{config.developer_key}}';
+      var clientId = '{{config.client_id}}';
+    </script>
+
+    <script src="/js/googlepicker.js"></script>
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700">
     <link rel="stylesheet" type="text/css" href="/css/admin.css">
   </head>
@@ -113,6 +119,8 @@
     </main>
     <aside class="topbar hide" id="topbar"></aside>
     <input id="selected_photos" type="hidden"></input>
+
+    <script type="text/javascript" src="https://apis.google.com/js/api.js?onload=onApiLoad"></script>
   </body>
 </html>
 {% endautoescape %}

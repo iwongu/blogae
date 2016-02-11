@@ -213,6 +213,8 @@ adminApp.controller('AdminCtrl', function($scope, $http, $window, topbar) {
   }
 
   this.open_photo_picker = function() {
+    createPicker(this.photos_selected.bind(this));
+    /*
     var picker = $window.open('/admin/picker', 'picker');
     var timer = $window.setInterval(angular.bind(this, function() {
       if (picker.closed !== false) {
@@ -220,8 +222,31 @@ adminApp.controller('AdminCtrl', function($scope, $http, $window, topbar) {
 	this.photos_selected();
       }
     }), 200);
+    */
   }
 
+  this.photos_selected = function(data) {
+    if (data[google.picker.Response.ACTION] == google.picker.Action.PICKED) {
+      var docs = data[google.picker.Response.DOCUMENTS];
+
+      var content_el = $('#content').get(0);
+      var caret = content_el.selectionStart;
+      var new_content = this.content.slice(0, caret);
+      new_content += '\n';
+      docs.map(function(doc) {
+        var url = doc[google.picker.Document.THUMBNAILS][0]['url'].replace('/s32-c', '/s2048');
+        new_content += '\n![](' + url + ')\n';
+      });
+      new_content += '\n';
+      new_content += this.content.slice(caret, this.content.length);
+      this.content = new_content;
+      this.edited = true;
+
+      $scope.$apply();
+      this.content_changed();
+    }
+  }
+  /*
   this.photos_selected = function() {
     var value = $('#selected_photos').val();
     if (!value) {
@@ -243,6 +268,7 @@ adminApp.controller('AdminCtrl', function($scope, $http, $window, topbar) {
     $scope.$apply();
     this.content_changed();
   }
+  */
 
   this.fetch_next = function(next_post_id) {
     var params = $.param({'next_post_id': next_post_id});

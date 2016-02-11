@@ -147,6 +147,7 @@ class SaveConfig(ApiBase):
         config.blog_custom_css = self.request.get('blog_custom_css')
         config.authors = authors
         config.client_id = self.request.get('client_id')
+        config.developer_key = self.request.get('developer_key')
         config.admin_script = self.request.get('admin_script')
         config.blog_script = self.request.get('blog_script')
         config.post_script = self.request.get('post_script')

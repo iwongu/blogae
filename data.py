@@ -19,6 +19,7 @@ class Config(ndb.Model):
     blog_summary_size = ndb.IntegerProperty()
     blog_custom_css = ndb.TextProperty()
     authors = ndb.StringProperty(repeated=True)
+    developer_key = ndb.StringProperty()
     client_id = ndb.StringProperty()
     admin_script = ndb.TextProperty()
     blog_script = ndb.TextProperty()
@@ -55,6 +56,7 @@ class Config(ndb.Model):
             'blog_custom_css': self.blog_custom_css,
             'authors': ','.join(self.authors),
             'client_id': self.client_id,
+            'developer_key': self.developer_key,
             'admin_script': self.admin_script,
             'blog_script': self.blog_script,
             'post_script': self.post_script,
