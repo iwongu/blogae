@@ -236,7 +236,10 @@ adminApp.controller('AdminCtrl', function($scope, $http, $window, topbar) {
       docs.map(function(doc) {
         var url = doc[google.picker.Document.THUMBNAILS][0]['url'].replace('/s32-c', '/s2048');
         new_content += '\n![](' + url + ')\n';
+        new_content += '<img src="' + url + '" alt="" />\n';
+        new_content += '<a href="' + url + '"><img src="' + url + '" alt="" /></a>\n';
       });
+
       new_content += '\n';
       new_content += this.content.slice(caret, this.content.length);
       this.content = new_content;
